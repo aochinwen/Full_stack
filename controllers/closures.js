@@ -25,35 +25,18 @@ exports.getClosures_GET = async (req, res, next) => {
 //@access Public
 
 exports.addClosure_POST = async (req, res) => {
-    
-        const newClosure = new Closure({
-            ProjectOfficer: req.body.ProjectOfficer,
-            Title: req.body.Title,
-            Company: req.body.Company,
-            Contacts: req.body.Contacts,
-            Callsign: req.body.Callsign,
-            Description: req.body.Description,
-            DateofClosure: req.body.DateofClosure,
-            TimeofClosure: req.body.TimeofClosure,
-            Type: req.body.Type,
-            Remarks: req.body.Remarks,
-            location: req.body.location,
-        });
-        newClosure
-            .save()
-            .then((closures)=> res.json(closures))
-            .catch((err)=> res.json(err));
-            };
-            //.then((closures)=> res.json(closures))
-//         return res.status(200).json({
-//             success: true,
-//             data: closure
-//         })
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({error: 'Server Error'})
-//     };
-// };
+    try{
+        const newClosure = await Closure.create(req.body);
+       
+        return res.status(200).json({
+            success: true,
+            data: newClosure
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({error: 'Server Error'})
+    };
+};
 
 //@desc delete all closure
 //@route DELETE /api/v1/closures
