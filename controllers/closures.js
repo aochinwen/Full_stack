@@ -5,12 +5,12 @@ const Closure = require("../models/Closure");
 //@route GET /api/v1/closures
 //@access Public
 
-exports.getClosures = async (req, res, next) => {
+exports.getClosures_GET = async (req, res, next) => {
     try {
         const closures = await Closure.find();
 
         return res.status(200).json({
-            sucess: true,
+            success: true,
             count: closures.length,
             data: closures
         })
@@ -24,16 +24,86 @@ exports.getClosures = async (req, res, next) => {
 //@route POST /api/v1/closures
 //@access Public
 
-exports.addClosure = async (req, res, next) => {
-    try {
-        const closure = await Closure.create(req.body);
+exports.addClosure_POST = async (req, res) => {
+    
+        const newClosure = new Closure({
+            ProjectOfficer: req.body.ProjectOfficer,
+            Title: req.body.Title,
+            Company: req.body.Company,
+            Contacts: req.body.Contacts,
+            Callsign: req.body.Callsign,
+            Description: req.body.Description,
+            DateofClosure: req.body.DateofClosure,
+            TimeofClosure: req.body.TimeofClosure,
+            Type: req.body.Type,
+            Remarks: req.body.Remarks,
+            location: req.body.location,
+        });
+        newClosure
+            .save()
+            .then((closures)=> res.json(closures))
+            .catch((err)=> res.json(err));
+            };
+            //.then((closures)=> res.json(closures))
+//         return res.status(200).json({
+//             success: true,
+//             data: closure
+//         })
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({error: 'Server Error'})
+//     };
+// };
 
-        return res.status(200).json({
-            sucess: true,
-            data: closure
-        })
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({error: 'Server Error'})
+//@desc delete all closure
+//@route DELETE /api/v1/closures
+//@access Public
+
+exports.destroy_DELETE = (req, res, next)=> {
+    Closure.remove({}, function (err){
+        if (err) {
+            console.log(err)
+        } else {
+            res.end('success')
+        }
+    });
+};
+
+// get closures by PIC
+exports.filter_PIC_POST = (req, res, next) => {
+    var PIC= req.body.ProjectOfficer;
+    Taxiway.find({ProjectOfficer: PIC})
+        .then((closure) => res.json (closure))
+        .catch((err) => res.status(404).json({noClosure: "No Closure Found"}))
+};
+
+// get closures by start date
+exports.filter_date_POST = (req, res, next)=> {
+    var date= req.body.DateofClosure;
+    Taxiway.find({DateofClosure: date})
+        .then((closure) => res.json (closure))
+        .catch((err) => res.status(404).json({noClosure: "No Closure Found"}));
+};
+
+// edit closures by title
+exports.editClosure_POST = (req, res, next)=> {
+    var newData = {
+        ProjectOfficer: req.body.ProjectOfficer,
+        Company: req.body.Company,
+        Contacts: req.body.Contacts,
+        Callsign: req.body.Callsign,
+        Description: req.body.Description,
+        DateofClosure: req.body.DateofClosure,
+        TimeofClosure: req.body.TimeofClosure,
+        Type: req.body.Type,
+        Remarks: req.body.Remarks,
+        location: req.body.location,
     };
+    Taxiway.findOneAndUpdate(
+        {Title: req.body.Title},
+        {$set: newData},
+        {new:true}
+    )
+        .then((closure) => res.json(closure))
+        .catch((err) => console.log(err));
 };

@@ -4,14 +4,17 @@ const Double = require('@mongoosejs/double');
 const Schema = mongoose.Schema;
 const mapboxGL = require("../utils/mapboxGL")
 
-// const polygonSchema = new mongoose.Schema({
-//     type: "<GeoJSON object type>",
-//     coordinates: {
-//       type:Array, // Array of arrays of arrays of numbers
-//       //required: true,
-//       //index: '2dsphere'
-//     }
-//   });
+const polygonSchema = new mongoose.Schema({
+    type: {
+      type: String,
+      enum: ['Polygon'],
+      required: true
+    },
+    coordinates: {
+      type: [[[Number]]], // Array of arrays of arrays of numbers
+      required: true
+    }
+  });
 
 const TaxiwaySchema = new Schema ({
     Title: {
@@ -54,8 +57,11 @@ const TaxiwaySchema = new Schema ({
     Status: {
         type: String,
     },
-    location: {
-        type: [[[Array]]]
+    location: polygonSchema,
+
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
     
 });

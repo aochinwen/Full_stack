@@ -20,6 +20,8 @@ app.use(express.json());
 // enable cors
 app.use(cors());
 
+// set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
