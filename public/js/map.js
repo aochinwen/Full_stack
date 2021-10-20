@@ -20,56 +20,54 @@ for (const input of inputs) {
 async function getClosures() {
     const res = await fetch('/api/v1/closures');
     const data = await res.json();
+    console.log('getting closures')
 
-    console.log(data);
+    const closures = data.data.map(closure =>{
+        return {
+            type: 'Feature',
+            geometry : {
+                type:'Polygon',
+                coordinates : closure.location.coordinates,
+                
+                },
+            properties: {
+                Title: closure.Title,
+                ProjectOfficer: closure.ProjectOfficer,
+                Company: closure.Company,
+                Contacts: closure.Contacts,
+                Callsign: closure.Callsign,
+                Description: closure.Description,
+                DateofClosure: closure.DateofClosure,
+                TimeofClosure: closure.TimeofClosure,
+                Type: closure.Type,
+                Remarks: closure.Remarks,
+                Status: closure.Status
+            }
+        };
+    });
+    loadmap(closures);
+    //console.log(closures)
 }
 
 
+
 // load map with closures
-function loadmap(){
+function loadmap(closures){
     map.on('load', () => {
             // Add a data source containing GeoJSON data.
-            map.addSource('maine', {
+            map.addSource('closures', {
                     'type': 'geojson',
                     'data': {
                         'type': 'FeatureCollection',
                         'features': closures,
-                        // 'geometry': {
-                        //     'type': 'Polygon',
-                        //     // These coordinates outline Maine.
-                        //     'coordinates': [
-                        //                     [
-                        //                         [-67.13734, 45.13745],
-                        //                         [-66.96466, 44.8097],
-                        //                         [-68.03252, 44.3252],
-                        //                         [-69.06, 43.98],
-                        //                         [-70.11617, 43.68405],
-                        //                         [-70.64573, 43.09008],
-                        //                         [-70.75102, 43.08003],
-                        //                         [-70.79761, 43.21973],
-                        //                         [-70.98176, 43.36789],
-                        //                         [-70.94416, 43.46633],
-                        //                         [-71.08482, 45.30524],
-                        //                         [-70.66002, 45.46022],
-                        //                         [-70.30495, 45.91479],
-                        //                         [-70.00014, 46.69317],
-                        //                         [-69.23708, 47.44777],
-                        //                         [-68.90478, 47.18479],
-                        //                         [-68.2343, 47.35462],
-                        //                         [-67.79035, 47.06624],
-                        //                         [-67.79141, 45.70258],
-                        //                         [-67.13734, 45.13745]
-                        //                     ]
-                        //                 ]
-                        //             }
-                            }
+                        }
                 });
                 
                 // Add a new layer to visualize the polygon.
                 map.addLayer({
-                    'id': 'maine',
+                    'id': 'closures',
                     'type': 'fill',
-                    'source': 'maine', // reference the data source
+                    'source': 'closures', // reference the data source
                     'layout': {},
                     'paint': {
                     'fill-color': '#0080ff', // blue color fill
@@ -80,14 +78,63 @@ function loadmap(){
                 map.addLayer({
                     'id': 'outline',
                     'type': 'line',
-                    'source': 'maine',
+                    'source': 'closures',
                     'layout': {},
                     'paint': {
                     'line-color': '#000',
-                    'line-width': 3
+                    'line-width': 2
                     }
             });
         });
+    map.on('click', 'closures', (e) => {
+        console.log(e.features[0])
+        new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.Title)
+        .addTo(map)
+    });
+    
+        
+    // Change the cursor to a pointer when
+    // the mouse is over the states layer.
+    map.on('mouseenter', 'closures', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+        
+    // Change the cursor back to a pointer
+    // when it leaves the states layer.
+    map.on('mouseleave', 'closures', () => {
+        map.getCanvas().style.cursor = '';
+    });
 };
 
+const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+
+// function loadPopUp(){
+//     map.on('click', 'closures', (e) => {
+//         new mapboxgl.Popup()
+//         .setLngLat(e.lngLat)
+//         .setHTML(e.features[0].properties.Title)
+//         .addTo(map);
+//     });
+        
+//     // Change the cursor to a pointer when
+//     // the mouse is over the states layer.
+//     map.on('mouseenter', 'closures', () => {
+//         map.getCanvas().style.cursor = 'pointer';
+//     });
+        
+//     // Change the cursor back to a pointer
+//     // when it leaves the states layer.
+//     map.on('mouseleave', 'closures', () => {
+//         map.getCanvas().style.cursor = '';
+//     });
+// }
+
+
 getClosures();
+//loadPopUp();
