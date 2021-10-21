@@ -14,7 +14,8 @@ const polygonSchema = new mongoose.Schema({
       type: [[[Number]]], // Array of arrays of arrays of numbers
       required: true,
     }
-  });
+  }
+  );
 
 const TaxiwaySchema = new Schema ({
     Title: {
@@ -44,8 +45,8 @@ const TaxiwaySchema = new Schema ({
         type: Date,
         required: [true, 'Please enter start date of work'],
     } ,
-    TimeofClosure: {
-        type: Number,
+    EndofClosure: {
+        type: Date,
         required: [true, 'Please enter duration of work'],
     },
     Type: {
@@ -56,6 +57,7 @@ const TaxiwaySchema = new Schema ({
     },
     Status: {
         type: String,
+        default: "Pending"
     },
     location: polygonSchema,
 

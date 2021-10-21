@@ -20,6 +20,7 @@
   "homepage": "https://github.com/aochinwen/Full_stack#readme",
   "dependencies": {
     "@mongoosejs/double": "^0.2.0",
+    "@turf/turf": "^6.5.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.6.1",
@@ -31,6 +32,6 @@
     "node-geocoder": "^3.27.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.14"
   }
 }
