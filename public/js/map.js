@@ -212,19 +212,24 @@ function loadmap(closures){
         .setHTML(e.features[0].properties.Title)
         .addTo(map)
         d_detail.style.display="block";
-        d_Title.innerHTML=e.features[0].properties.Title
-        d_ProjectOfficer.innerHTML=e.features[0].properties.ProjectOfficer
-        d_Company.innerHTML=e.features[0].properties.Company
-        d_Contacts.innerHTML=e.features[0].properties.Contacts
-        d_Callsign.innerHTML=e.features[0].properties.Callsign
-        d_Description.innerHTML=e.features[0].properties.Description
-        // var date = new Date(Date.UTC(e.features[0].properties.DateofClosure));
-        // console.log(new Intl.DateTimeFormat('en-GB').format(date));
-        // options.timeZone = 'Asia/Singapore';
+        d_Title.innerHTML=e.features[0].properties.Title;
+        d_ProjectOfficer.innerHTML=e.features[0].properties.ProjectOfficer;
+        d_Company.innerHTML=e.features[0].properties.Company;
+        d_Contacts.innerHTML=e.features[0].properties.Contacts;
+        d_Callsign.innerHTML=e.features[0].properties.Callsign;
+        d_Description.innerHTML=e.features[0].properties.Description;
         d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
         d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
-        d_Remarks.innerHTML=e.features[0].properties.Remarks
-        d_Status.innerHTML=e.features[0].properties.Status
+        if (e.features[0].properties.StartTime){
+            d_Time.innerHTML  = e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime;
+        } else {
+            d_Time.innerHTML="no time specified"
+        };
+        d_ConContacts.innerHTML=e.features[0].properties.ConContacts;
+        d_Contractor.innerHTML=e.features[0].properties.Contractor;
+        d_Type.innerHTML=e.features[0].properties.Type;
+        d_Remarks.innerHTML=e.features[0].properties.Remarks;
+        d_Status.innerHTML=e.features[0].properties.Status;
 
     });
     
