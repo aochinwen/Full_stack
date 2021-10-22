@@ -132,7 +132,7 @@ function loadmap(closures){
         // draw.changeMode('simple_select');
     });
     map.on('style.load', () => {
-            // Add a data source containing GeoJSON data.
+            //Add a data source containing GeoJSON data.
             map.addSource('closures', {
                     'type': 'geojson',
                     'data': {
