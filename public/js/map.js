@@ -70,6 +70,7 @@ function loadmap(closures){
     console.log('loading closures')
     map.on('load', () => {
         // Add a data source containing GeoJSON data.
+        
         map.addSource('closures', {
                 'type': 'geojson',
                 'data': {
@@ -77,22 +78,36 @@ function loadmap(closures){
                     'features': closures,
                     }
             });
+            // var tomorrow = moment(new Date()).add(1,'days');
+            // date = JSON.stringify(tomorrow.utc())
+            // console.log(tomorrow)
+            // console.log(closures[0].properties.EndofClosure)
             
             // Add a new layer to visualize the polygon.
             map.addLayer({
-                'id': 'closures',
+                'id': 'approved',
                 'type': 'fill',
                 'source': 'closures', // reference the data source
                 'layout': {},
                 'paint': {
-                'fill-color': [
-                    'case',
-                    ['boolean',['feature-state', 'clicked'], true],
-                    '#64bdbb', // if selected true, paint in blue
-                    '#888888' // else paint in gray
-                ], // blue color fill
-                'fill-opacity': 0.5
-                }
+                'fill-color': '#64bdbb',
+                'fill-opacity': 0.5,
+                },
+                'filter':
+                ['==','Status', 'Approved']
+            });
+
+            map.addLayer({
+                'id': 'pending',
+                'type': 'fill',
+                'source': 'closures', // reference the data source
+                'layout': {},
+                'paint': {
+                'fill-color': '#fbd2d7',
+                'fill-opacity': 0.5,
+                },
+                'filter':
+                ['==','Status', 'Pending']
             });
             // Add a black outline around the polygon.
             map.addLayer({
@@ -105,6 +120,7 @@ function loadmap(closures){
                 'line-width': 2
                 }
         });
+        // draw.changeMode('simple_select');
     });
     map.on('style.load', () => {
             // Add a data source containing GeoJSON data.
@@ -118,34 +134,65 @@ function loadmap(closures){
                 
                 // Add a new layer to visualize the polygon.
                 map.addLayer({
-                    'id': 'closures',
+                    'id': 'approved',
                     'type': 'fill',
                     'source': 'closures', // reference the data source
                     'layout': {},
                     'paint': {
-                    'fill-color': [
-                        'case',
-                        ['boolean',['feature-state', 'clicked'], true],
-                        '#64bdbb', // if selected true, paint in blue
-                        '#888888' // else paint in gray
-                    ], // blue color fill
-                    'fill-opacity': 0.5
-                    }
+                    'fill-color': '#64bdbb',
+                    'fill-opacity': 0.5,
+                    },
+                    'filter':
+                    ['==','Status', 'Approved']
                 });
                 // Add a black outline around the polygon.
                 map.addLayer({
-                    'id': 'outline',
-                    'type': 'line',
-                    'source': 'closures',
+                    'id': 'pending',
+                    'type': 'fill',
+                    'source': 'closures', // reference the data source
                     'layout': {},
                     'paint': {
-                    'line-color': '#000',
-                    'line-width': 2
-                    }
+                    'fill-color': '#fbd2d7',
+                    'fill-opacity': 0.5,
+                    },
+                    'filter':
+                    ['==','Status', 'Pending']
             });
+            map.addLayer({
+                'id': 'outline',
+                'type': 'line',
+                'source': 'closures',
+                'layout': {},
+                'paint': {
+                'line-color': '#000',
+                'line-width': 2
+                }
+        });
+            draw.changeMode('simple_select');
         });
 
-    map.on('click', 'closures', (e) => {
+    map.on('click', 'pending', (e) => {
+        new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.Title)
+        .addTo(map)
+        d_detail.style.display="block";
+        d_Title.innerHTML=e.features[0].properties.Title
+        d_ProjectOfficer.innerHTML=e.features[0].properties.ProjectOfficer
+        d_Company.innerHTML=e.features[0].properties.Company
+        d_Contacts.innerHTML=e.features[0].properties.Contacts
+        d_Callsign.innerHTML=e.features[0].properties.Callsign
+        d_Description.innerHTML=e.features[0].properties.Description
+        // var date = new Date(Date.UTC(e.features[0].properties.DateofClosure));
+        // console.log(new Intl.DateTimeFormat('en-GB').format(date));
+        // options.timeZone = 'Asia/Singapore';
+        d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
+        d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
+        d_Remarks.innerHTML=e.features[0].properties.Remarks
+        d_Status.innerHTML=e.features[0].properties.Status
+
+    });
+    map.on('click', 'approved', (e) => {
         console.log(e.features[0])
         new mapboxgl.Popup()
         .setLngLat(e.lngLat)

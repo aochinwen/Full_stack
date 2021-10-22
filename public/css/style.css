@@ -8361,6 +8361,27 @@ a[data-toggle="collapse"] {
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
+.legend {
+  background-color: #fff;
+  opacity: 0.8;
+  bottom: 25px;
+  border-radius: 3px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  padding: 10px;
+  position: absolute;
+  left: 10px;
+  z-index: 1;
+}
+
+.legend div span {
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  margin-right: 5px;
+  width: 10px;
+  }
+   
+
 @media screen and (max-width: 480px) {
   #main{
     display:block;
