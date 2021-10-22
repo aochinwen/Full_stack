@@ -8394,6 +8394,16 @@ a[data-toggle="collapse"] {
   height: 20px;
 }
 
+.mapboxgl-ctrl {
+  z-index: 0 !important; 
+  position: absolute;
+  pointer-events: none;
+}
+
+/* .mapboxgl-ctrl{
+  display: none !important;
+} */
+
 @media screen and (max-width: 480px) {
   #main{
     display:block;
