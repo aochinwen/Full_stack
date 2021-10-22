@@ -35,23 +35,19 @@
 				<div class="p-4">
 		  		<h1><a href="index.html" class="logo">Menu</a></h1>
 	        <ul class="list-unstyled components mb-5">
-	          <li class="active">
+	          <li class="active menuButton">
 	            <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
 	          </li>
-	          <li>
-	              <a href="#"><span class="fa fa-user mr-3" id="closerList"></span>Closure List</a>
+	          <li class="menuButton">
+	              <a href="#"><span class="fa fa-user mr-3 " id="closerList"></span>Closure List</a>
 	          </li>
-	          <li>
+	          <li class="menuButton">
               <a href="#" onclick="toggleDrawPolygon()"><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
 	          </li>
-	          <li>
+	          <li class="menuButton">
               <a href="#"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Print Closure</a>
 	          </li>
 	        </ul>
-
-
-	        
-
 	      </div>
     	</nav>
         <div class="container my-3">
@@ -233,6 +229,18 @@
                 }
                 
             }
+        </script>
+        <script>
+            const menuButton = document.getElementsByClassName('menuButton');
+
+            Array.from(menuButton).forEach(function(menuButton) {
+                menuButton.addEventListener('click', toggleMenu);
+            });
+
+            function toggleMenu(){
+                document.getElementById("sidebarCollapse").click();
+            }
+            
         </script>
         
         <script src="js/map.js"></script>
