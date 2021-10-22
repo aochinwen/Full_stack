@@ -8414,5 +8414,14 @@ a[data-toggle="collapse"] {
     background-color:#67b7c4;
     z-index: index inherit;
   }
+
+  .main-form {
+    display:block;
+  }
+
+  .time{
+    display: block;
+    padding: 5px;
+  }
   
 }
