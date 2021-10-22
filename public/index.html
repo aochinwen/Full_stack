@@ -126,7 +126,7 @@
 
 
             <div id='confirmPolygon' style="display:none;" class='draw-polygon py-2'>
-                <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" onclick="toggleClosureForm()" style="color:white;">Mark-up complete</a></div>
+                <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" style="color:white;">Mark-up complete</a></div>
                 <div id='coordinates' style="display:none"></div>
             </div>
             <div id="closure-form"  style="display:none;" class="shadow border rounded-1 p-3">
@@ -191,22 +191,14 @@
         <script>
             function toggleDrawPolygon(){
                 let button = document.getElementById('confirmPolygon');
-                draw.changeMode('draw_polygon');
                 alert("please draw closure on map");
+                draw.changeMode('draw_polygon');
                 if (button.style.display === "none"){
                     document.getElementById("confirmPolygon").style.display = "block";
                 } else {
                     document.getElementById("confirmPolygon").style.display = "none";
                 }
                 
-            }
-        </script>
-        <script>
-            function toggleClosureForm(){
-                let form = document.getElementById('closure-form');
-                if (form.style.display === "none"){
-                    document.getElementById("closure-form").style.display = "block";
-                } 
             }
         </script>
         

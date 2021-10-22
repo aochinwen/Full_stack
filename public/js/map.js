@@ -196,26 +196,27 @@ var draw = new MapboxDraw({
  map.addControl(draw);
 
 var drawButton = document.getElementById('confirmPolygon');
+
 drawButton.onclick = function() {
     var data = draw.getAll();
-    //console.log(data);
-
     var polyCoord = turf.meta.coordAll(data);
     sessionStorage.setItem("polyCoord", JSON.stringify(polyCoord))
-    console.log(polyCoord)
-    console.log( typeof(polyCoord))
-    //console.log(polyCoord.features);
     document.getElementById('closure-location').value = polyCoord;
-    if (data.features.length > 0) {
+    
+    if (polyCoord.length > 4) {
             var answer = document.getElementById('coordinates');
-
             answer.innerHTML = 'coordinates: '
             polyCoord.forEach(coord => {
                 answer.append("["+coord+"]"+" ")
             })
-            //answer.innerHTML = '<p><strong>' + rounded_area + '</strong></p><p>square meters</p>'+ 'first co-ordinate' +polyCoord[0];
+            document.querySelector('#confirmPolygon a').innerHTML = "Update Mark-up";
+            let form = document.getElementById('closure-form');
+            if (form.style.display === "none"){
+                document.getElementById("closure-form").style.display = "block";
+            } 
         } else {
             alert("Use the draw tools to draw a polygon!");
+            
         }
 };
 
