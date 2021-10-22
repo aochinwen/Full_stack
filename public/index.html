@@ -109,6 +109,10 @@
                         <div><span style="background-color: #fbd2d7"></span>Pending</div>
                     </div>
                 </div>
+                <div id='confirmPolygon' style="display:none;" class='draw-polygon py-2'>
+                    <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" style="color:white;">Mark-up complete</a></div>
+                    <div id='coordinates' style="display:none"></div>
+                </div>
                 <div id='detail' class="shadow-lg rounded-2 m-2 p-2" tabindex="1">
                     <h1 class='fw-bold fs-6 pe-auto'>Title: <span id='detail-Title' class="font-weight-normal"></span></h1> 
                     <h1 class='fw-bold fs-6 pe-auto' >Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
@@ -126,12 +130,6 @@
                     <h1 class='fw-bold fs-6 pe-auto' >Status: <span id='detail-Status' class="font-weight-normal"></span></h1>
                 </div>
                 
-            </div>
-
-
-            <div id='confirmPolygon' style="display:none;" class='draw-polygon py-2'>
-                <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" style="color:white;">Mark-up complete</a></div>
-                <div id='coordinates' style="display:none"></div>
             </div>
             <div id="closure-form"  style="display:none;" class="shadow border rounded-1 p-3 main-form">
                 <form id="closure-form" class="mb-4 active" autocomplete="off" >
@@ -246,8 +244,6 @@
         <script>
             const detail_panel = document.getElementById('detail')
             detail_panel.addEventListener('click', ()=>{detail_panel.style.display='none'})
-            
-            
         </script>
         
         <script src="js/map.js"></script>
