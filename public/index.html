@@ -43,7 +43,7 @@
 	              <a href="#"><span class="fa fa-user mr-3" id="closerList"></span>Closure List</a>
 	          </li>
 	          <li>
-              <a href="#" onclick="toggleClosureForm()"><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
+              <a href="#" onclick="toggleDrawPolygon()"><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
 	          </li>
 	          <li>
               <a href="#"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Print Closure</a>
@@ -57,7 +57,7 @@
     	</nav>
         <div class="container my-3">
             <h1 class='display-4 text-center'>
-                <i class='fas fa-map-marked mr-4'></i>Taxiway Closure Map
+                <i class='fas fa-map-marked mr-4'></i>Taxiway Closure Programme
             </h1>
             <style>
                 #menu {
@@ -126,11 +126,11 @@
 
 
             <div id='confirmPolygon' style="display:none;" class='draw-polygon py-2'>
-                <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" style="color:white;">Record Closure</a></div>
+                <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" onclick="toggleClosureForm()" style="color:white;">Mark-up complete</a></div>
                 <div id='coordinates' style="display:none"></div>
             </div>
-            <div id="closure-form" style="display:none;" class="shadow border rounded-1 p-3">
-                <form id="closure-form" class="mb-4 active" >
+            <div id="closure-form"  style="display:none;" class="shadow border rounded-1 p-3">
+                <form id="closure-form" class="mb-4 active" autocomplete="off" >
                     <div class="form-group">
                         <label for="closure-title">Title: </label>
                         <input type="text" id="closure-title" class="form-control" required>
@@ -189,18 +189,24 @@
         </div>
         
         <script>
-            function toggleClosureForm(){
-                let form = document.getElementById('closure-form');
+            function toggleDrawPolygon(){
+                let button = document.getElementById('confirmPolygon');
                 draw.changeMode('draw_polygon');
                 alert("please draw closure on map");
-                if (form.style.display === "none"){
-                    document.getElementById("closure-form").style.display = "block";
+                if (button.style.display === "none"){
                     document.getElementById("confirmPolygon").style.display = "block";
                 } else {
-                    document.getElementById("closure-form").style.display = "none";
                     document.getElementById("confirmPolygon").style.display = "none";
                 }
                 
+            }
+        </script>
+        <script>
+            function toggleClosureForm(){
+                let form = document.getElementById('closure-form');
+                if (form.style.display === "none"){
+                    document.getElementById("closure-form").style.display = "block";
+                } 
             }
         </script>
         
