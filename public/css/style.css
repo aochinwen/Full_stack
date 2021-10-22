@@ -8341,3 +8341,45 @@ a[data-toggle="collapse"] {
 
 .subscribe-form .form-control {
   background: #3b4ec6; }
+#main{
+  display:flex;
+}
+
+#detail {
+  position:absolute; 
+  z-index: 5; 
+  opacity:0.9; 
+  height:480px; 
+  max-width:14%; 
+  overflow-y: scroll;
+  overflow-x: hidden; 
+  display:none; 
+  float:right;
+  right:1vw;
+  top:9vh;
+  background-color: whitesmoke;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+
+@media screen and (max-width: 480px) {
+  #main{
+    display:block;
+    padding:0%;
+  }
+  #map{
+    display:flex;
+    overflow:scroll;
+  }
+  #detail{
+    top:0%;
+    position: relative;
+    right:0%;
+    justify-content: center;
+    margin:500px auto;
+    max-width:90vw;
+    width: 90vw;
+    background-color:#67b7c4;
+    z-index: index inherit;
+  }
+  
+}

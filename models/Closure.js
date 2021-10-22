@@ -47,7 +47,7 @@ const TaxiwaySchema = new Schema ({
     } ,
     EndofClosure: {
         type: Date,
-        required: [true, 'Please enter duration of work'],
+        required: [true, 'Please enter end date of work'],
     },
     Type: {
         type: String,

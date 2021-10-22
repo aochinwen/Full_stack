@@ -20,6 +20,7 @@
         <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.16.0/mapbox-gl-draw.js'></script>
         <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.16.0/mapbox-gl-draw.css' type='text/css'/>
         <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     </head>
     <body>
@@ -69,48 +70,81 @@
                 z-index: 5;
                 }
             </style>
-            <div id="menu">
-                <input id="mapbox/satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
-                <!-- See a list of Mapbox-hosted public styles at -->
-                <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-                <label for="satellite-v9">satellite</label>
-                <input id="mapbox/light-v10" type="radio" name="rtoggle" value="light">
-                <label for="light-v10">light</label>
-                <input id="mapbox/dark-v10" type="radio" name="rtoggle" value="dark">
-                <label for="dark-v10">dark</label>
-                <input id="ray11132002/ckocybags0c1m17k88qzwqa6e" type="radio" name="rtoggle" value="CAG">
-                <label for="CAG">CAG</label>
+            
+            <div id="menu" class="d-flex" >
+                <div class=" text-center"style="height: 25px;">
+                    <input id="mapbox/satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+                    <label for="satellite-v9">satellite</label>
+                    <input id="mapbox/light-v10" type="radio" name="rtoggle" value="light">
+                    <label for="light-v10">light</label>
+                    <input id="mapbox/dark-v10" type="radio" name="rtoggle" value="dark">
+                    <label for="dark-v10">dark</label>
+                    <input id="ray11132002/ckocybags0c1m17k88qzwqa6e" type="radio" name="rtoggle" value="CAG">
+                    <label for="CAG">CAG</label>
+                </div>
+                
+                <!-- <div style="display:block;">
+                    <div style="display:inline-flex"> 
+                        <select id="filterProperty" class="w-auto form-selecth-auto" style="z-index:5; padding: auto;" aria-label="filter-type">
+                            <option selected>Choose filter</option>
+                            <option value="ProjectOfficer">Project Officer</option>
+                            <option value="Title">Title</option>
+                            <option value="DateofClosure">DateofClosure</option>
+                        </select>
+                        <input id='filterValue'type="text" class="form-control" placeholder="keywords">
+                    </div>
+                </div> -->
+                
             </div>
+
+            
+
             <style>
                 .mapboxgl-popup {
                 max-width: 400px;
                 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
                 }
             </style>
-            <div id='map' style='width:100%; min-height: 500px; border-radius: 5px;'>
-                
+            <div id="main">
+                <div id='map' style='width:100%; min-height: 500px; border-radius: 5px;'> 
+                </div>
+                <div id='detail' class="shadow-lg rounded-2 m-2 p-2 ">
+                    <h1 class='fw-bold fs-6 pe-auto'>Title: <span id='detail-Title' class="font-weight-normal"></span></h1> 
+                    <h1 class='fw-bold fs-6 pe-auto' >Project Officer: <span id='detail-ProjectOfficer' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Contacts: <span id='detail-Contacts' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Callsign: <span id='detail-Callsign' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Description: <span id='detail-Description' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Start of Closure: <span id='detail-StartofClosure' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >End of Closure: <span id='detail-EndofClosure' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Remarks: <span id='detail-Remarks' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Status: <span id='detail-Status' class="font-weight-normal"></span></h1>
+                </div>
             </div>
+            
+
+
             <div id='confirmPolygon' style="display:none;" class='draw-polygon py-2'>
                 <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" style="color:white;">Record Closure</a></div>
-                <div id='coordinates'></div>
+                <div id='coordinates' style="display:none"></div>
             </div>
-            <div id="closure-form" style="display:none;" class="border rounded-1 p-3">
+            <div id="closure-form" style="display:none;" class="shadow border rounded-1 p-3">
                 <form id="closure-form" class="mb-4 active" >
                     <div class="form-group">
                         <label for="closure-title">Title: </label>
-                        <input type="text" id="closure-title" class="form-control">
+                        <input type="text" id="closure-title" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="closure-projectofficer">Project Officer: </label>
-                        <input type="text" id="closure-projectofficer" class="form-control">
+                        <input type="text" id="closure-projectofficer" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="closure-company">Company: </label>
-                        <input type="text" id="closure-company" class="form-control">
+                        <input type="text" id="closure-company" class="form-control"  required>
                     </div>
                     <div class="form-group">
-                        <label for="closure-contacts">Contacts: </label>
-                        <input type="text" id="closure-contacts" class="form-control">
+                        <label for="closure-contacts">Contact Number: </label>
+                        <input type="number" placeholder="type your phone number here" minlength="8" maxlength="8" id="closure-contacts" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="closure-callsign">Callsign: </label>
@@ -122,15 +156,15 @@
                     </div>
                     <div class="form-group">
                         <label for="closure-DateofClosure">Start Date: </label>
-                        <input type="date" id="closure-DateofClosure" class="form-control">
+                        <input type="date" id="closure-DateofClosure" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="closure-EndofClosure">End Date: </label>
-                        <input type="date" id="closure-EndofClosure" class="form-control">
+                        <input type="date" id="closure-EndofClosure" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="closure-type">Type: </label>
-                        <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-type'>
+                        <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-type' required>
                             <option selected>Open this select menu</option>
                             <option value="Full">Full</option>
                             <option value="Half">Half</option>
@@ -152,6 +186,7 @@
             <!-- <a href="add.html" class="btn btn-success mb-4" style='margin-top: 2%;'>New Closure</a> -->
             
         </div>
+        
         <script>
             function toggleClosureForm(){
                 let form = document.getElementById('closure-form');
@@ -174,5 +209,6 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
         <script src="js/add.js"></script>
+        <script src="js/filter.js"></script>
     </body>
 </html>

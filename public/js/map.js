@@ -1,3 +1,15 @@
+const d_detail = document.getElementById("detail")
+const d_Title = document.getElementById("detail-Title");
+const d_ProjectOfficer = document.getElementById("detail-ProjectOfficer");
+const d_Company = document.getElementById("detail-Company");
+const d_Contacts = document.getElementById("detail-Contacts");
+const d_Callsign = document.getElementById("detail-Callsign");
+const d_Description = document.getElementById("detail-Description");
+const d_StartofClosure = document.getElementById("detail-StartofClosure");
+const d_EndofClosure = document.getElementById("detail-EndofClosure");
+const d_Remarks = document.getElementById("detail-Remarks");
+const d_Status = document.getElementById("detail-Status");
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmF5MTExMzIwMDIiLCJhIjoiY2tvY3kwb3Y5MmliZDJub24wdnpjMTB5NiJ9.kPPmudTylSbhH27w2lwsoQ';
 const map = new mapboxgl.Map({
@@ -40,7 +52,7 @@ async function getClosures() {
                 Callsign: closure.Callsign,
                 Description: closure.Description,
                 DateofClosure: closure.DateofClosure,
-                TimeofClosure: closure.TimeofClosure,
+                EndofClosure: closure.EndofClosure,
                 Type: closure.Type,
                 Remarks: closure.Remarks,
                 Status: closure.Status
@@ -134,12 +146,27 @@ function loadmap(closures){
         });
 
     map.on('click', 'closures', (e) => {
-        
         console.log(e.features[0])
         new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML(e.features[0].properties.Title)
         .addTo(map)
+        d_detail.style.display="block";
+        d_Title.innerHTML=e.features[0].properties.Title
+        d_ProjectOfficer.innerHTML=e.features[0].properties.ProjectOfficer
+        d_Company.innerHTML=e.features[0].properties.Company
+        d_Contacts.innerHTML=e.features[0].properties.Contacts
+        d_Callsign.innerHTML=e.features[0].properties.Callsign
+        d_Description.innerHTML=e.features[0].properties.Description
+        // var date = new Date(Date.UTC(e.features[0].properties.DateofClosure));
+        // console.log(new Intl.DateTimeFormat('en-GB').format(date));
+        // options.timeZone = 'Asia/Singapore';
+        d_StartofClosure.innerHTML=e.features[0].properties.DateofClosure
+        console.log(e.features[0].properties.EndofClosure)
+        d_EndofClosure.innerHTML=e.features[0].properties.EndofClosure
+        d_Remarks.innerHTML=e.features[0].properties.Remarks
+        d_Status.innerHTML=e.features[0].properties.Status
+
     });
     
         
