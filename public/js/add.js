@@ -9,7 +9,9 @@ const DateofClosure = document.getElementById('closure-DateofClosure');
 const EndofClosure = document.getElementById('closure-EndofClosure');
 const Type = document.getElementById('closure-type');
 const Remarks = document.getElementById('closure-remarks');
-const Location = document.getElementById('closure-location')
+const Location = document.getElementById('closure-location');
+const StartTime = document.getElementById('closure-StartTime');
+const EndTime = document.getElementById('closure-EndTime')
 
 
 // send POST to API to add closure
@@ -34,6 +36,8 @@ async function addClosure_POST(e) {
         Description: Description.value,
         DateofClosure: DateofClosure.value,
         EndofClosure: EndofClosure.value,
+        StartTime: StartTime.value,
+        EndTime: EndTime.value,
         Type: Type.value,
         Remarks: Remarks.value,
         location: coordinates

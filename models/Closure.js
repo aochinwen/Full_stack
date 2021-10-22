@@ -49,6 +49,12 @@ const TaxiwaySchema = new Schema ({
         type: Date,
         required: [true, 'Please enter end date of work'],
     },
+    StartTime:{
+        type: String
+    },
+    EndTime:{
+        type: String
+    },
     Type: {
         type: String,
     },

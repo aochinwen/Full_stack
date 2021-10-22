@@ -122,6 +122,8 @@
                     <h1 class='fw-bold fs-6 pe-auto' >Description: <span id='detail-Description' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Start of Closure: <span id='detail-StartofClosure' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >End of Closure: <span id='detail-EndofClosure' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Time: <span id='detail-Time' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Type: <span id='detail-Type' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Remarks: <span id='detail-Remarks' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Status: <span id='detail-Status' class="font-weight-normal"></span></h1>
                 </div>
@@ -133,7 +135,7 @@
                 <div id='confirmPolygon' class='btn btn-primary'><a href="#closure-form" style="color:white;">Mark-up complete</a></div>
                 <div id='coordinates' style="display:none"></div>
             </div>
-            <div id="closure-form"  style="display:none;" class="shadow border rounded-1 p-3">
+            <div id="closure-form"  style="display:none;" class="shadow border rounded-1 p-3 main-form">
                 <form id="closure-form" class="mb-4 active" autocomplete="off" >
                     <div class="form-group">
                         <label for="closure-title">Title: </label>
@@ -159,20 +161,31 @@
                         <label for="closure-description">Description: </label>
                         <input type="text" id="closure-description" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label for="closure-DateofClosure">Start Date: </label>
-                        <input type="date" id="closure-DateofClosure" class="form-control" required>
+                    <div>
+                        <div class="form-group time">
+                            <label for="closure-DateofClosure">Start Date: </label>
+                            <input type="date" id="closure-DateofClosure" class="form-control" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-EndofClosure">End Date: </label>
+                            <input type="date" id="closure-EndofClosure" class="form-control" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="closure-EndofClosure">End Date: </label>
-                        <input type="date" id="closure-EndofClosure" class="form-control" required>
+                    
+                    <div class="form-group time">
+                        <label for="closure-StartTime">Start Time: </label>
+                        <input type="time" id="closure-StartTime" class="form-control" value="00:00" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group time">
+                        <label for="closure-EndTime">End Time: </label>
+                        <input type="time" id="closure-EndTime" class="form-control" value="23:59" required>
+                    </div>
+                    <div class="form-group time">
                         <label for="closure-type">Type: </label>
                         <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-type' required>
                             <option selected>Open this select menu</option>
                             <option value="Full">Full</option>
-                            <option value="Half">Half</option>
+                            <option value="Half">Daily</option>
                         </select>
                     </div>
                     <div class="form-group">

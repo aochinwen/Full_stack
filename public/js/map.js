@@ -9,6 +9,8 @@ const d_StartofClosure = document.getElementById("detail-StartofClosure");
 const d_EndofClosure = document.getElementById("detail-EndofClosure");
 const d_Remarks = document.getElementById("detail-Remarks");
 const d_Status = document.getElementById("detail-Status");
+const d_Time= document.getElementById("detail-Time");
+const d_Type= document.getElementById("detail-Type");
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmF5MTExMzIwMDIiLCJhIjoiY2tvY3kwb3Y5MmliZDJub24wdnpjMTB5NiJ9.kPPmudTylSbhH27w2lwsoQ';
@@ -53,6 +55,8 @@ async function getClosures() {
                 Description: closure.Description,
                 DateofClosure: closure.DateofClosure,
                 EndofClosure: closure.EndofClosure,
+                StartTime: closure.StartTime,
+                EndTime: closure.EndTime,
                 Type: closure.Type,
                 Remarks: closure.Remarks,
                 Status: closure.Status
@@ -183,11 +187,14 @@ function loadmap(closures){
         d_Contacts.innerHTML=e.features[0].properties.Contacts
         d_Callsign.innerHTML=e.features[0].properties.Callsign
         d_Description.innerHTML=e.features[0].properties.Description
-        // var date = new Date(Date.UTC(e.features[0].properties.DateofClosure));
-        // console.log(new Intl.DateTimeFormat('en-GB').format(date));
-        // options.timeZone = 'Asia/Singapore';
         d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
         d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
+        if (e.features[0].properties.StartTime){
+            d_Time.innerHTML  = e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime;
+        } else {
+            d_Time.innerHTML="no time specified"
+        }
+        d_Type.innerHTML=e.features[0].properties.Type
         d_Remarks.innerHTML=e.features[0].properties.Remarks
         d_Status.innerHTML=e.features[0].properties.Status
 
