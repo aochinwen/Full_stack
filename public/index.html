@@ -115,9 +115,11 @@
                 </div>
                 <div id='detail' class="shadow-lg rounded-2 m-2 p-2 ">
                     <h1 class='fw-bold fs-6 pe-auto'>Title: <span id='detail-Title' class="font-weight-normal"></span></h1> 
-                    <h1 class='fw-bold fs-6 pe-auto' >Project Officer: <span id='detail-ProjectOfficer' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Project Officer: <span id='detail-ProjectOfficer' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Contacts: <span id='detail-Contacts' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Contractor: <span id='detail-Contractor' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Contractor Contacts: <span id='detail-ConContacts' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Callsign: <span id='detail-Callsign' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Description: <span id='detail-Description' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Start of Closure: <span id='detail-StartofClosure' class="font-weight-normal"></span></h1>
@@ -141,27 +143,15 @@
                         <label for="closure-title">Title: </label>
                         <input type="text" id="closure-title" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="closure-projectofficer">Project Officer: </label>
-                        <input type="text" id="closure-projectofficer" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="closure-company">Company: </label>
-                        <input type="text" id="closure-company" class="form-control"  required>
-                    </div>
-                    <div class="form-group">
-                        <label for="closure-contacts">Contact Number: </label>
-                        <input type="number" placeholder="type your phone number here" minlength="8" maxlength="8" id="closure-contacts" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="closure-callsign">Callsign: </label>
-                        <input type="text" id="closure-callsign" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="closure-description">Description: </label>
-                        <input type="text" id="closure-description" class="form-control">
-                    </div>
                     <div>
+                        <div class="form-group time">
+                            <label for="closure-projectofficer">Project Officer: </label>
+                            <input type="text" id="closure-projectofficer" class="form-control" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-contacts">Contact Number: </label>
+                            <input type="text" pattern="[0-9]+" placeholder="type your phone number here" minlength="8" maxlength="8" id="closure-contacts" class="form-control" required>
+                        </div>
                         <div class="form-group time">
                             <label for="closure-DateofClosure">Start Date: </label>
                             <input type="date" id="closure-DateofClosure" class="form-control" required>
@@ -170,23 +160,47 @@
                             <label for="closure-EndofClosure">End Date: </label>
                             <input type="date" id="closure-EndofClosure" class="form-control" required>
                         </div>
+                        
+                    </div>
+                    <div>
+                        <div class="form-group time">
+                            <label for="closure-contractor">Contractor: </label>
+                            <input type="text" id="closure-contractor" class="form-control" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-concontacts">Contact Number: </label>
+                            <input type="text" pattern="[0-9]+" placeholder="Contractor phone number here" minlength="8" maxlength="8" id="closure-concontacts" class="form-control" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-StartTime">Start Time: </label>
+                            <input type="time" id="closure-StartTime" class="form-control" value="00:00" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-EndTime">End Time: </label>
+                            <input type="time" id="closure-EndTime" class="form-control" value="23:59" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-type">Type: </label>
+                            <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-type' required>
+                                <option selected>Open this select menu</option>
+                                <option value="Full">Full</option>
+                                <option value="Half">Daily</option>
+                            </select>
+                        </div>
                     </div>
                     
-                    <div class="form-group time">
-                        <label for="closure-StartTime">Start Time: </label>
-                        <input type="time" id="closure-StartTime" class="form-control" value="00:00" required>
+                    <div class="form-group">
+                        <label for="closure-company">Company: </label>
+                        <input type="text" id="closure-company" class="form-control"  required>
                     </div>
-                    <div class="form-group time">
-                        <label for="closure-EndTime">End Time: </label>
-                        <input type="time" id="closure-EndTime" class="form-control" value="23:59" required>
+                    
+                    <div class="form-group">
+                        <label for="closure-callsign">Callsign: </label>
+                        <input type="text" id="closure-callsign" class="form-control">
                     </div>
-                    <div class="form-group time">
-                        <label for="closure-type">Type: </label>
-                        <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-type' required>
-                            <option selected>Open this select menu</option>
-                            <option value="Full">Full</option>
-                            <option value="Half">Daily</option>
-                        </select>
+                    <div class="form-group">
+                        <label for="closure-description">Description: </label>
+                        <input type="text" id="closure-description" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="closure-remarks">Remarks: </label>

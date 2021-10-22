@@ -76,7 +76,7 @@ exports.editClosure_POST = (req, res, next)=> {
         Contacts: req.body.Contacts,
         Callsign: req.body.Callsign,
         Description: req.body.Description,
-        DateofClosure: req.body.DateofClosure,
+        StarteofClosure: req.body.StarteofClosure,
         EndofClosure: req.body.EndofClosure,
         Type: req.body.Type,
         Remarks: req.body.Remarks,

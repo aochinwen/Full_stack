@@ -35,6 +35,15 @@ const TaxiwaySchema = new Schema ({
         minlength: [8, 'Phone number must be equal to 8'],
         maxlength: [8, 'Phone number must be equal to 8']
     },
+    Contractor: {
+        type: String,
+        
+    },
+    ConContacts:{
+        type: String,
+        minlength: [8, 'Phone number must be equal to 8'],
+        maxlength: [8, 'Phone number must be equal to 8']
+    },
     Callsign: {
         type: String,
     },
