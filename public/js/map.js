@@ -193,7 +193,6 @@ function loadmap(closures){
 
     });
     map.on('click', 'approved', (e) => {
-        console.log(e.features[0])
         new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML(e.features[0].properties.Title)
