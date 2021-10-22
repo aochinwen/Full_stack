@@ -161,9 +161,8 @@ function loadmap(closures){
         // var date = new Date(Date.UTC(e.features[0].properties.DateofClosure));
         // console.log(new Intl.DateTimeFormat('en-GB').format(date));
         // options.timeZone = 'Asia/Singapore';
-        d_StartofClosure.innerHTML=e.features[0].properties.DateofClosure
-        console.log(e.features[0].properties.EndofClosure)
-        d_EndofClosure.innerHTML=e.features[0].properties.EndofClosure
+        d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
+        d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
         d_Remarks.innerHTML=e.features[0].properties.Remarks
         d_Status.innerHTML=e.features[0].properties.Status
 
