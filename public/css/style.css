@@ -8358,8 +8358,10 @@ a[data-toggle="collapse"] {
   right:1vw;
   top:9vh;
   background-color: whitesmoke;
+  
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
+
 
 .legend {
   background-color: #fff;
@@ -8394,10 +8396,8 @@ a[data-toggle="collapse"] {
   height: 20px;
 }
 
-.mapboxgl-ctrl {
-  z-index: 0 !important; 
-  position: absolute;
-  pointer-events: none;
+.mapboxgl-ctrl-logo {
+  z-index:0 !important;
 }
 
 /* .mapboxgl-ctrl{
@@ -8423,7 +8423,10 @@ a[data-toggle="collapse"] {
     width: 90vw;
     background-color:#67b7c4;
     z-index: index inherit;
+    height:auto;
+    overflow: visible;
   }
+  
 
   .main-form {
     display:block;

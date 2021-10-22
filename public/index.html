@@ -109,7 +109,7 @@
                         <div><span style="background-color: #fbd2d7"></span>Pending</div>
                     </div>
                 </div>
-                <div id='detail' class="shadow-lg rounded-2 m-2 p-2 ">
+                <div id='detail' class="shadow-lg rounded-2 m-2 p-2" tabindex="1">
                     <h1 class='fw-bold fs-6 pe-auto'>Title: <span id='detail-Title' class="font-weight-normal"></span></h1> 
                     <h1 class='fw-bold fs-6 pe-auto' >Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Project Officer: <span id='detail-ProjectOfficer' class="font-weight-normal"></span></h1>
@@ -213,7 +213,7 @@
             </div>
             <!-- <a href="add.html" class="btn btn-success mb-4" style='margin-top: 2%;'>New Closure</a> -->
             <footer>
-                <a href='https://www.mapbox.com/about/maps/' target='_blank'>Maps &copy; Mapbox &copy; OpenStreetMap</a>
+                
             </footer>
         </div>
 
@@ -242,6 +242,11 @@
             function toggleMenu(){
                 document.getElementById("sidebarCollapse").click();
             }
+        </script>
+        <script>
+            const detail_panel = document.getElementById('detail')
+            detail_panel.addEventListener('click', ()=>{detail_panel.style.display='none'})
+            
             
         </script>
         
