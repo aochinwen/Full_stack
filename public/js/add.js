@@ -13,7 +13,7 @@ const Location = document.getElementById('closure-location');
 const StartTime = document.getElementById('closure-StartTime');
 const EndTime = document.getElementById('closure-EndTime')
 const Contractor = document.getElementById('closure-contractor')
-const ConContacts = document.getElementById('closure-concontact')
+const ConContacts = document.getElementById('closure-concontacts')
 
 
 // send POST to API to add closure
