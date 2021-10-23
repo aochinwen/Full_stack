@@ -1,3 +1,5 @@
+var DateTime = luxon.DateTime;
+
 const d_detail = document.getElementById("detail")
 const d_Title = document.getElementById("detail-Title");
 const d_ProjectOfficer = document.getElementById("detail-ProjectOfficer");
@@ -42,6 +44,12 @@ async function getClosures() {
     console.log('getting closures')
 
     const closures = data.data.map(closure =>{
+        console.log(typeof(['to-number',["get",closure.DateofClosure]]));
+        console.log("luxon start: "+ DateTime.fromISO(closure.DateofClosure))
+        console.log("luxon end: "+ DateTime.fromISO(closure.EndofClosure))
+        const startDate1 = DateTime.fromISO(closure.EndofClosure)
+        console.log(typeof(startDate1.ts));
+        console.log(typeof(startDate1))
         return {
             type: 'Feature',
             geometry : {
@@ -58,20 +66,19 @@ async function getClosures() {
                 ConContacts: closure.ConContacts,
                 Callsign: closure.Callsign,
                 Description: closure.Description,
-                DateofClosure: closure.DateofClosure,
-                EndofClosure: closure.EndofClosure,
+                DateofClosure: DateTime.fromISO(closure.DateofClosure).ts,
+                EndofClosure: DateTime.fromISO(closure.EndofClosure).ts,
                 StartTime: closure.StartTime,
                 EndTime: closure.EndTime,
                 Type: closure.Type,
                 Remarks: closure.Remarks,
-                Status: closure.Status
+                Status: closure.Status,
             }
         };
     });
     loadmap(closures);
     //console.log(closures)
 }
-
 
 
 // load map with closures
@@ -192,8 +199,9 @@ function loadmap(closures){
         d_Contacts.innerHTML=e.features[0].properties.Contacts;
         d_Callsign.innerHTML=e.features[0].properties.Callsign;
         d_Description.innerHTML=e.features[0].properties.Description;
-        d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
-        d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
+        d_StartofClosure.innerHTML=DateTime.fromISO(e.features[0].properties.DateofClosure).toFormat('LLL dd yyyy');
+        d_EndofClosure.innerHTML=DateTime.fromISO(e.features[0].properties.EndofClosure).toFormat('LLL dd yyyy');
+        
         if (e.features[0].properties.StartTime){
             d_Time.innerHTML  = e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime;
         } else {
@@ -236,13 +244,22 @@ function loadmap(closures){
         
     // Change the cursor to a pointer when
     // the mouse is over the states layer.
-    map.on('mouseenter', 'closures', () => {
+    map.on('mouseenter', 'Pending', () => {
         map.getCanvas().style.cursor = 'pointer';
     });
         
     // Change the cursor back to a pointer
     // when it leaves the states layer.
-    map.on('mouseleave', 'closures', () => {
+    map.on('mouseleave', 'Pending', () => {
+        map.getCanvas().style.cursor = '';
+    });
+    map.on('mouseenter', 'Approved', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+        
+    // Change the cursor back to a pointer
+    // when it leaves the states layer.
+    map.on('mouseleave', 'Approved', () => {
         map.getCanvas().style.cursor = '';
     });
 };
