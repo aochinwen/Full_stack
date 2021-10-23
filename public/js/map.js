@@ -129,82 +129,66 @@ async function getClosures() {
 // load map with closures
 function loadmap(closures){
     console.log('loading closures')
-    map.on('load', () => {
-        // Add a data source containing GeoJSON data.
-        
-        map.addSource('closures', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': closures,
-                    },
-                'generateId': true
-            });
-        
-        // Add a new layer to visualize the polygon.
-        map.addLayer(approved);
+    const mapStates = ['load', 'style.load']
 
-        map.addLayer(pending);
-        // Add a black outline around the polygon.
-        map.addLayer(outline);
-
-        //create hover effect
-        layers.forEach(layer => {
-            map.on('mousemove',layer,(e)=>{
-                if (e.features.length > 0) {
-                    if (clickedStateId) {
-                        map.setFeatureState(
-                            { source: 'closures', id: clickedStateId },
-                            { click: false }
-                        );
-                    }
-                    clickedStateId = e.features[0].id;
-                    map.setFeatureState(
-                        { source: 'closures', id: clickedStateId },
-                        { click: true }
-                    );
-                }
-            })
-            map.on('mouseleave', layer, () => {
-                // Change the cursor back to a pointer
-                // when it leaves the states layer.
-                map.getCanvas().style.cursor = '';
-                //change polygon to original color when mouse leave
-                if (clickedStateId !== null) {
-                    map.setFeatureState(
-                        { source: 'closures', id: clickedStateId },
-                        { click: false }
-                    );
-                }
-                clickedStateId= null;
-                });
-            // Change the cursor to a pointer when
-            // the mouse is over the states layer.
-            map.on('mouseenter', layer, () => {
-                map.getCanvas().style.cursor = 'pointer';
-            });
-
-        });
-    });
-    map.on('style.load', () => {
-            //Add a data source containing GeoJSON data.
+    mapStates.forEach(State => {
+        map.on(State, () => {
+            // Add a data source containing GeoJSON data.
+            
             map.addSource('closures', {
                     'type': 'geojson',
                     'data': {
                         'type': 'FeatureCollection',
                         'features': closures,
-                        }
+                        },
+                    'generateId': true
                 });
-                
-                // Add a new layer to visualize the polygon.
-                map.addLayer(approved);
-                // Add a black outline around the polygon.
-                map.addLayer(pending);
-                map.addLayer(outline);
-                draw.changeMode('simple_select');
+            // Add a new layer to visualize the polygon.
+            map.addLayer(approved);
+    
+            map.addLayer(pending);
+            // Add a black outline around the polygon.
+            map.addLayer(outline);
+    
+            //create hover effect
+            layers.forEach(layer => {
+                map.on('mousemove',layer,(e)=>{
+                    if (e.features.length > 0) {
+                        if (clickedStateId) {
+                            map.setFeatureState(
+                                { source: 'closures', id: clickedStateId },
+                                { click: false }
+                            );
+                        }
+                        clickedStateId = e.features[0].id;
+                        map.setFeatureState(
+                            { source: 'closures', id: clickedStateId },
+                            { click: true }
+                        );
+                    }
+                })
+                map.on('mouseleave', layer, () => {
+                    // Change the cursor back to a pointer
+                    // when it leaves the states layer.
+                    map.getCanvas().style.cursor = '';
+                    //change polygon to original color when mouse leave
+                    if (clickedStateId !== null) {
+                        map.setFeatureState(
+                            { source: 'closures', id: clickedStateId },
+                            { click: false }
+                        );
+                    }
+                    clickedStateId= null;
+                    });
+                // Change the cursor to a pointer when
+                // the mouse is over the states layer.
+                map.on('mouseenter', layer, () => {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+            });
         });
+    });
     layers = ['pending', 'approved'];
-
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
@@ -273,6 +257,4 @@ drawButton.onclick = function() {
             
         }
 };
-
-
 getClosures();
