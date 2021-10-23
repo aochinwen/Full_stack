@@ -133,18 +133,51 @@ function loadmap(closures){
                     },
                 'generateId': true
             });
-            // var tomorrow = moment(new Date()).add(1,'days');
-            // date = JSON.stringify(tomorrow.utc())
-            // console.log(tomorrow)
-            // console.log(closures[0].properties.EndofClosure)
-            
-            // Add a new layer to visualize the polygon.
-            map.addLayer(approved);
+        
+        // Add a new layer to visualize the polygon.
+        map.addLayer(approved);
 
-            map.addLayer(pending);
-            // Add a black outline around the polygon.
-            map.addLayer(outline);
-        // draw.changeMode('simple_select');
+        map.addLayer(pending);
+        // Add a black outline around the polygon.
+        map.addLayer(outline);
+
+        //create hover effect
+        layers.forEach(layer => {
+            map.on('mousemove',layer,(e)=>{
+                if (e.features.length > 0) {
+                    if (clickedStateId) {
+                        map.setFeatureState(
+                            { source: 'closures', id: clickedStateId },
+                            { click: false }
+                        );
+                    }
+                    clickedStateId = e.features[0].id;
+                    map.setFeatureState(
+                        { source: 'closures', id: clickedStateId },
+                        { click: true }
+                    );
+                }
+            })
+            map.on('mouseleave', layer, () => {
+                // Change the cursor back to a pointer
+                // when it leaves the states layer.
+                map.getCanvas().style.cursor = '';
+                //change polygon to original color when mouse leave
+                if (clickedStateId !== null) {
+                    map.setFeatureState(
+                        { source: 'closures', id: clickedStateId },
+                        { click: false }
+                    );
+                }
+                clickedStateId= null;
+                });
+            // Change the cursor to a pointer when
+            // the mouse is over the states layer.
+            map.on('mouseenter', layer, () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+
+        });
     });
     map.on('style.load', () => {
             //Add a data source containing GeoJSON data.
@@ -160,100 +193,40 @@ function loadmap(closures){
                 map.addLayer(approved);
                 // Add a black outline around the polygon.
                 map.addLayer(pending);
-            map.addLayer(outline);
-            draw.changeMode('simple_select');
+                map.addLayer(outline);
+                draw.changeMode('simple_select');
         });
-        
-    map.on('click', 'pending', (e) => {
-        new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(e.features[0].properties.Title)
-        .addTo(map)
-        d_detail.style.display="block";
-        d_Title.innerHTML=e.features[0].properties.Title;
-        d_ProjectOfficer.innerHTML=e.features[0].properties.ProjectOfficer;
-        d_Company.innerHTML=e.features[0].properties.Company;
-        d_Contacts.innerHTML=e.features[0].properties.Contacts;
-        d_Callsign.innerHTML=e.features[0].properties.Callsign;
-        d_Description.innerHTML=e.features[0].properties.Description;
-        d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
-        d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
-        if (e.features[0].properties.StartTime){
-            d_Time.innerHTML  = e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime;
-        } else {
-            d_Time.innerHTML="no time specified"
-        };
-        d_ConContacts.innerHTML=e.features[0].properties.ConContacts;
-        d_Contractor.innerHTML=e.features[0].properties.Contractor;
-        d_Type.innerHTML=e.features[0].properties.Type;
-        d_Remarks.innerHTML=e.features[0].properties.Remarks;
-        d_Status.innerHTML=e.features[0].properties.Status;
-        if (e.features.length > 0) {
-            if (clickedStateId) {
-                map.setFeatureState(
-                    { source: 'closures', id: clickedStateId },
-                    { click: false }
-                );
-            }
-            clickedStateId = e.features[0].id;
-            map.setFeatureState(
-                { source: 'closures', id: clickedStateId },
-                { click: true }
-            );
-        }
-    });
-    map.on('click', 'approved', (e) => {
-        new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(e.features[0].properties.Title)
-        .addTo(map)
-        d_detail.style.display="block";
-        d_Title.innerHTML=e.features[0].properties.Title;
-        d_ProjectOfficer.innerHTML=e.features[0].properties.ProjectOfficer;
-        d_Company.innerHTML=e.features[0].properties.Company;
-        d_Contacts.innerHTML=e.features[0].properties.Contacts;
-        d_Callsign.innerHTML=e.features[0].properties.Callsign;
-        d_Description.innerHTML=e.features[0].properties.Description;
-        d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
-        d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
-        if (e.features[0].properties.StartTime){
-            d_Time.innerHTML  = e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime;
-        } else {
-            d_Time.innerHTML="no time specified"
-        };
-        d_ConContacts.innerHTML=e.features[0].properties.ConContacts;
-        d_Contractor.innerHTML=e.features[0].properties.Contractor;
-        d_Type.innerHTML=e.features[0].properties.Type;
-        d_Remarks.innerHTML=e.features[0].properties.Remarks;
-        d_Status.innerHTML=e.features[0].properties.Status;
-        if (e.features.length > 0) {
-            if (clickedStateId) {
-                map.setFeatureState(
-                    { source: 'closures', id: clickedStateId },
-                    { click: false }
-                );
-            }
-            clickedStateId = e.features[0].id;
-            map.setFeatureState(
-                { source: 'closures', id: clickedStateId },
-                { click: true }
-            );
-        }
+    layers = ['pending', 'approved'];
 
+    //populate detail panel
+    layers.forEach(layer => {
+        map.on('click', layer, (e) => {
+            new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(e.features[0].properties.Title)
+            .addTo(map)
+            d_detail.style.display="block";
+            d_Title.innerHTML=e.features[0].properties.Title;
+            d_ProjectOfficer.innerHTML=e.features[0].properties.ProjectOfficer;
+            d_Company.innerHTML=e.features[0].properties.Company;
+            d_Contacts.innerHTML=e.features[0].properties.Contacts;
+            d_Callsign.innerHTML=e.features[0].properties.Callsign;
+            d_Description.innerHTML=e.features[0].properties.Description;
+            d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
+            d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
+            if (e.features[0].properties.StartTime){
+                d_Time.innerHTML  = e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime;
+            } else {
+                d_Time.innerHTML="no time specified"
+            };
+            d_ConContacts.innerHTML=e.features[0].properties.ConContacts;
+            d_Contractor.innerHTML=e.features[0].properties.Contractor;
+            d_Type.innerHTML=e.features[0].properties.Type;
+            d_Remarks.innerHTML=e.features[0].properties.Remarks;
+            d_Status.innerHTML=e.features[0].properties.Status;
+        });
     });
     
-        
-    // Change the cursor to a pointer when
-    // the mouse is over the states layer.
-    map.on('mouseenter', 'closures', () => {
-        map.getCanvas().style.cursor = 'pointer';
-    });
-        
-    // Change the cursor back to a pointer
-    // when it leaves the states layer.
-    map.on('mouseleave', 'closures', () => {
-        map.getCanvas().style.cursor = '';
-    });
 };
 
 const titlePopup = new mapboxgl.Popup({
@@ -293,22 +266,6 @@ drawButton.onclick = function() {
             
         }
 };
-
-// function changeColor(polygon){
-//     if (polygon.features.length > 0) {
-//         if (clickedStateId) {
-//             map.setFeatureState(
-//                 { source: 'closures', id: clickedStateId },
-//                 { click: false }
-//             );
-//         }
-//         clickedStateId = polygon.features[0].id;
-//         map.setFeatureState(
-//             { source: 'closures', id: clickedStateId },
-//             { click: true }
-//         );
-//     }
-// };
 
 
 getClosures();
