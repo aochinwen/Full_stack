@@ -14,7 +14,7 @@ const d_Type= document.getElementById("detail-Type");
 const d_Contractor= document.getElementById("detail-Contractor");
 const d_ConContacts= document.getElementById("detail-ConContacts");
 
-
+var clickedStateId = null;
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmF5MTExMzIwMDIiLCJhIjoiY2tvY3kwb3Y5MmliZDJub24wdnpjMTB5NiJ9.kPPmudTylSbhH27w2lwsoQ';
 const map = new mapboxgl.Map({
@@ -204,7 +204,7 @@ function loadmap(closures){
         d_Type.innerHTML=e.features[0].properties.Type;
         d_Remarks.innerHTML=e.features[0].properties.Remarks;
         d_Status.innerHTML=e.features[0].properties.Status;
-
+        changeColor(e);
     });
     map.on('click', 'approved', (e) => {
         new mapboxgl.Popup()
@@ -284,5 +284,22 @@ drawButton.onclick = function() {
             
         }
 };
+
+function changeColor(polygon){
+    if (polygon.features.length > 0) {
+        if (clickedStateId) {
+            map.setFeatureState(
+                { source: 'closures', id: clickedStateId },
+                { click: false }
+            );
+        }
+        clickedStateId = polygon.features[0].id;
+        map.setFeatureState(
+            { source: 'closures', id: clickedStateId },
+            { click: true }
+        );
+    }
+};
+
 
 getClosures();
