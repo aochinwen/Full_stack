@@ -2,13 +2,27 @@ function printClosure(){
     document.getElementById("divClosureTable").style.display = "block"
     layers = ['pending', 'approved'];
     alert('Click on closure to add to table')
+    var selectedStateId = null;
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
             console.log("printClosure")
             let Table = document.getElementById('closureTable')
-            console.log(Table)
             let newRow = Table.insertRow(-1)
+
+            if (e.features.length > 0) {
+                // if (selectedStateId) {
+                //     map.setFeatureState(
+                //         { source: 'closures', id: selectedStateId },
+                //         { select: false }
+                //     );
+                // }
+                selectedStateId = e.features[0].id;
+                map.setFeatureState(
+                    { source: 'closures', id: selectedStateId },
+                    { select: true }
+                );
+            }
 
             let printData = [
                 e.features[0].properties.Title,

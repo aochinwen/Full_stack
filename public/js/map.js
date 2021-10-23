@@ -16,6 +16,7 @@ const d_ConContacts= document.getElementById("detail-ConContacts");
 
 var clickedStateId = null;
 
+
 mapboxgl.accessToken = 'pk.eyJ1IjoicmF5MTExMzIwMDIiLCJhIjoiY2tvY3kwb3Y5MmliZDJub24wdnpjMTB5NiJ9.kPPmudTylSbhH27w2lwsoQ';
 const map = new mapboxgl.Map({
     container: 'map',
@@ -65,8 +66,13 @@ const outline = {
     'source': 'closures',
     'layout': {},
     'paint': {
-    'line-color': '#000',
-    'line-width': 1}
+    'line-color': [
+        'case',
+        ['boolean', ['feature-state', 'select'], false],
+        '#f6ff52',
+        '#000'
+    ],
+    'line-width': 2}
 };
 
 const layerList = document.getElementById('menu');
