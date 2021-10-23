@@ -4,6 +4,7 @@ const layers = ['approved','pending','outline']
 
 
 function filterDate(){
+    
     console.log("original type is "+ typeof(SearchStart.value))
     console.log("original value is " + SearchStart.value);
     const timestampStart = DateTime.fromISO(SearchStart.value);

@@ -13,7 +13,7 @@ const Location = document.getElementById('closure-location');
 const StartTime = document.getElementById('closure-StartTime');
 const EndTime = document.getElementById('closure-EndTime')
 const Contractor = document.getElementById('closure-contractor')
-const ConContacts = document.getElementById('closure-concontact')
+const ConContacts = document.getElementById('closure-concontacts')
 
 
 // send POST to API to add closure
@@ -28,7 +28,7 @@ async function addClosure_POST(e) {
         alert('Please draw closure');
     }
     let coordinates = {"type": "Polygon", "coordinates": JSON.parse(sessionStorage.getItem("polyCoord"))}
-
+    console.log(ConContacts)
     const sendBody = {
         Title: Title.value,
         ProjectOfficer: ProjectOfficer.value,
@@ -63,6 +63,7 @@ async function addClosure_POST(e) {
         alert('Closure added!');
         window.location.href = '/index.html';
     } catch (error) {
+        alert('Something went wrong')
         console.log(error)
     }
 }
