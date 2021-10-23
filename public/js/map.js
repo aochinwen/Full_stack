@@ -21,7 +21,8 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/ray11132002/ckocybags0c1m17k88qzwqa6e', // style URL
     center: [103.99676232382323, 1.3478886553251557], // starting position [lng, lat]
-    zoom: 13 // starting zoom
+    zoom: 13, // starting zoom
+    preserveDrawingBuffer:true
 });
 
 const approved = {
