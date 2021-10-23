@@ -23,6 +23,51 @@ const map = new mapboxgl.Map({
     center: [103.99676232382323, 1.3478886553251557], // starting position [lng, lat]
     zoom: 13 // starting zoom
 });
+
+const approved = {
+    'id': 'approved',
+    'type': 'fill',
+    'source': 'closures', // reference the data source
+    'layout': {},
+    'paint': {
+    'fill-color': [
+        'case',
+        ['boolean', ['feature-state', 'click'], false],
+        '#f6ff52',
+        '#64bdbb'
+    ],
+    'fill-opacity': 0.5,
+    },
+    'filter':['==','Status', 'Approved']
+};
+
+const pending = {
+    'id': 'pending',
+    'type': 'fill',
+    'source': 'closures', // reference the data source
+    'layout': {},
+    'paint': {
+    'fill-color': [
+        'case',
+        ['boolean', ['feature-state', 'click'], false],
+        '#f6ff52',
+        '#fbd2d7'
+    ],
+    'fill-opacity': 0.5,
+    },
+    'filter':['==','Status', 'Pending']
+};
+
+const outline = {
+    'id': 'outline',
+    'type': 'line',
+    'source': 'closures',
+    'layout': {},
+    'paint': {
+    'line-color': '#000',
+    'line-width': 1}
+};
+
 const layerList = document.getElementById('menu');
 const inputs = layerList.getElementsByTagName('input');
     
@@ -85,7 +130,8 @@ function loadmap(closures){
                 'data': {
                     'type': 'FeatureCollection',
                     'features': closures,
-                    }
+                    },
+                'generateId': true
             });
             // var tomorrow = moment(new Date()).add(1,'days');
             // date = JSON.stringify(tomorrow.utc())
@@ -93,42 +139,11 @@ function loadmap(closures){
             // console.log(closures[0].properties.EndofClosure)
             
             // Add a new layer to visualize the polygon.
-            map.addLayer({
-                'id': 'approved',
-                'type': 'fill',
-                'source': 'closures', // reference the data source
-                'layout': {},
-                'paint': {
-                'fill-color': '#64bdbb',
-                'fill-opacity': 0.5,
-                },
-                'filter':
-                ['==','Status', 'Approved']
-            });
+            map.addLayer(approved);
 
-            map.addLayer({
-                'id': 'pending',
-                'type': 'fill',
-                'source': 'closures', // reference the data source
-                'layout': {},
-                'paint': {
-                'fill-color': '#fbd2d7',
-                'fill-opacity': 0.5,
-                },
-                'filter':
-                ['==','Status', 'Pending']
-            });
+            map.addLayer(pending);
             // Add a black outline around the polygon.
-            map.addLayer({
-                'id': 'outline',
-                'type': 'line',
-                'source': 'closures',
-                'layout': {},
-                'paint': {
-                'line-color': '#000',
-                'line-width': 1
-                }
-        });
+            map.addLayer(outline);
         // draw.changeMode('simple_select');
     });
     map.on('style.load', () => {
@@ -142,41 +157,10 @@ function loadmap(closures){
                 });
                 
                 // Add a new layer to visualize the polygon.
-                map.addLayer({
-                    'id': 'approved',
-                    'type': 'fill',
-                    'source': 'closures', // reference the data source
-                    'layout': {},
-                    'paint': {
-                    'fill-color': '#64bdbb',
-                    'fill-opacity': 0.5,
-                    },
-                    'filter':
-                    ['==','Status', 'Approved']
-                });
+                map.addLayer(approved);
                 // Add a black outline around the polygon.
-                map.addLayer({
-                    'id': 'pending',
-                    'type': 'fill',
-                    'source': 'closures', // reference the data source
-                    'layout': {},
-                    'paint': {
-                    'fill-color': '#fbd2d7',
-                    'fill-opacity': 0.5,
-                    },
-                    'filter':
-                    ['==','Status', 'Pending']
-            });
-            map.addLayer({
-                'id': 'outline',
-                'type': 'line',
-                'source': 'closures',
-                'layout': {},
-                'paint': {
-                'line-color': '#000',
-                'line-width': 1
-                }
-        });
+                map.addLayer(pending);
+            map.addLayer(outline);
             draw.changeMode('simple_select');
         });
         
@@ -204,7 +188,19 @@ function loadmap(closures){
         d_Type.innerHTML=e.features[0].properties.Type;
         d_Remarks.innerHTML=e.features[0].properties.Remarks;
         d_Status.innerHTML=e.features[0].properties.Status;
-        changeColor(e);
+        if (e.features.length > 0) {
+            if (clickedStateId) {
+                map.setFeatureState(
+                    { source: 'closures', id: clickedStateId },
+                    { click: false }
+                );
+            }
+            clickedStateId = e.features[0].id;
+            map.setFeatureState(
+                { source: 'closures', id: clickedStateId },
+                { click: true }
+            );
+        }
     });
     map.on('click', 'approved', (e) => {
         new mapboxgl.Popup()
@@ -230,6 +226,19 @@ function loadmap(closures){
         d_Type.innerHTML=e.features[0].properties.Type;
         d_Remarks.innerHTML=e.features[0].properties.Remarks;
         d_Status.innerHTML=e.features[0].properties.Status;
+        if (e.features.length > 0) {
+            if (clickedStateId) {
+                map.setFeatureState(
+                    { source: 'closures', id: clickedStateId },
+                    { click: false }
+                );
+            }
+            clickedStateId = e.features[0].id;
+            map.setFeatureState(
+                { source: 'closures', id: clickedStateId },
+                { click: true }
+            );
+        }
 
     });
     
@@ -285,21 +294,21 @@ drawButton.onclick = function() {
         }
 };
 
-function changeColor(polygon){
-    if (polygon.features.length > 0) {
-        if (clickedStateId) {
-            map.setFeatureState(
-                { source: 'closures', id: clickedStateId },
-                { click: false }
-            );
-        }
-        clickedStateId = polygon.features[0].id;
-        map.setFeatureState(
-            { source: 'closures', id: clickedStateId },
-            { click: true }
-        );
-    }
-};
+// function changeColor(polygon){
+//     if (polygon.features.length > 0) {
+//         if (clickedStateId) {
+//             map.setFeatureState(
+//                 { source: 'closures', id: clickedStateId },
+//                 { click: false }
+//             );
+//         }
+//         clickedStateId = polygon.features[0].id;
+//         map.setFeatureState(
+//             { source: 'closures', id: clickedStateId },
+//             { click: true }
+//         );
+//     }
+// };
 
 
 getClosures();
