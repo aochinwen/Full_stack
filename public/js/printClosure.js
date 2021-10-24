@@ -51,15 +51,18 @@ function createPDF() {
     var mapCanvas = document.querySelector('.mapboxgl-canvas');
     img.src = mapCanvas.toDataURL();
     
-
+    
     var style = "<style>";
-    style = style + "table {width: 100%;font: 17px Calibri;}";
+    style = style + "* { font-family: Calibri;}"
+    style = style + "table {width: 100%;font: 13px Calibri;}";
     style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
     style = style + "padding: 2px 3px;text-align: center;}";
+    style = style + "img {max-width: 100%; max-height: 700px; border-radius: 5px;}"
+    style = style + "button {display:none;}"
     style = style + "</style>";
 
     // CREATE A WINDOW OBJECT.
-    let win = window.open('', '', 'height=700,width=700');
+    let win = window.open('', '', 'height=1754,width=1240');
 
     win.document.write('<html><head>');
     win.document.write('<title>Closure List</title>');   // <title> FOR PDF HEADER.
@@ -67,7 +70,7 @@ function createPDF() {
     win.document.write('</head>');
     win.document.write('<body>');
     win.document.body.appendChild(img);
-    win.document.write('<span> List of Closures </span>')
+    win.document.write('<h2> List of Closures </h2>')
     win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
     win.document.write('</body></html>');
 
