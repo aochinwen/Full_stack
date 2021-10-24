@@ -26,7 +26,9 @@ const map = new mapboxgl.Map({
     preserveDrawingBuffer:true
 });
 
-//filters = {expired:}
+filters = {expired:['>=','EndofClosure',DateTime.now().ts], hideApproved:['!=','Status','Approved'], hidePending:['!=','Status','Pending']}
+layers = ['pending', 'approved','outline'];
+
 
 const approved = {
     'id': 'approved',
@@ -79,6 +81,21 @@ const outline = {
     'line-width': 2},
     'filter':["all",['>=','EndofClosure',DateTime.now().ts]]
 };
+
+function filterToggle(layer,filterParam){
+    let index = layer.filter.indexOf(filterParam);
+    if (index !== -1) {
+        layer.filter.splice(index, 1);
+    } else{
+        layer.filter.push(filterParam)
+    }
+    console.log(layer.filter)
+};
+// console.log(typeof(filters.hideApproved))
+// approved.filter.push(filters.hideApproved)
+// pending.filter.push(filters.hidePending)
+// console.log(approved.filter)
+// console.log(typeof(approved.filter))
 
 const layerList = document.getElementById('menu');
 const inputs = layerList.getElementsByTagName('input');
@@ -193,7 +210,7 @@ function loadmap(closures){
             });
         });
     });
-    layers = ['pending', 'approved'];
+    
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
