@@ -13,7 +13,7 @@ const d_Time= document.getElementById("detail-Time");
 const d_Type= document.getElementById("detail-Type");
 const d_Contractor= document.getElementById("detail-Contractor");
 const d_ConContacts= document.getElementById("detail-ConContacts");
-
+var DateTime = luxon.DateTime;
 var clickedStateId = null;
 
 
@@ -26,6 +26,7 @@ const map = new mapboxgl.Map({
     preserveDrawingBuffer:true
 });
 
+console.log(DateTime.now().ts)
 const approved = {
     'id': 'approved',
     'type': 'fill',
@@ -40,8 +41,10 @@ const approved = {
     ],
     'fill-opacity': 0.5,
     },
-    'filter':['==','Status', 'Approved']
+    'filter':["all",['==','Status', 'Approved']]
 };
+
+//["all",["==", 'damage', 0],[">=", 'senior_population', 20]]
 
 const pending = {
     'id': 'pending',
@@ -57,7 +60,7 @@ const pending = {
     ],
     'fill-opacity': 0.5,
     },
-    'filter':['==','Status', 'Pending']
+    'filter':["all",['==','Status', 'Pending'],['>=','EndofClosure',DateTime.now().ts]]
 };
 
 const outline = {
@@ -192,6 +195,7 @@ function loadmap(closures){
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
+            console.log(e.features[0].properties.EndofClosure)
             new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(e.features[0].properties.Title)
