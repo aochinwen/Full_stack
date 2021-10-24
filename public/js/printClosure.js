@@ -3,46 +3,74 @@ function printClosure(){
     layers = ['pending', 'approved'];
     alert('Click on closure to add to table')
     var selectedStateId = null;
+    let IDs = [];
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
             console.log("printClosure")
-            let Table = document.getElementById('closureTable')
-            let newRow = Table.insertRow(-1)
-
+            
             if (e.features.length > 0) {
-                // if (selectedStateId) {
-                //     map.setFeatureState(
-                //         { source: 'closures', id: selectedStateId },
-                //         { select: false }
-                //     );
-                // }
-                selectedStateId = e.features[0].id;
-                map.setFeatureState(
-                    { source: 'closures', id: selectedStateId },
-                    { select: true }
-                );
-            }
-
-            let printData = [
-                e.features[0].properties.Title,
-                e.features[0].properties.Status,
-                e.features[0].properties.ProjectOfficer,
-                e.features[0].properties.Description,
-                moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do') + " till "+ moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do'),
-                e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime,
-                e.features[0].properties.Type,
-                e.features[0].properties.Remarks
-            ];
-            console.log(printData[2])
-            for (i=0; i<8; i++){
-                let newCell = newRow.insertCell(i)
-                let newText = document.createTextNode(printData[i]);
-                newCell.appendChild(newText)
+                // if something was clicked before, it'll turn select to false 
+                if (IDs.includes(e.features[0].id)){
+                    map.setFeatureState(
+                        { source: 'closures', id: e.features[0].id },
+                        { select: false }
+                    );
+                    IDs = IDs.filter(a => a !== e.features[0].id)
+                    deleteFromTable(e);
+                } else{
+                    selectedStateId = e.features[0].id;
+                    map.setFeatureState(
+                        { source: 'closures', id: selectedStateId },
+                        { select: true }
+                    );
+                    IDs.push(selectedStateId)
+                    addToTable(e);
+                }
+                
             }
             
         });
     });
+}
+
+function addToTable(e){
+    let Table = document.getElementById('closureTable').getElementsByTagName('tbody')[0]
+    let newRow = Table.insertRow(-1)
+
+    let printData = [
+        e.features[0].properties.Title,
+        e.features[0].properties.Status,
+        e.features[0].properties.ProjectOfficer,
+        e.features[0].properties.Description,
+        moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do') + " till "+ moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do'),
+        e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime,
+        e.features[0].properties.Type,
+        e.features[0].properties.Remarks
+    ];
+    console.log(printData[2])
+    for (i=0; i<8; i++){
+        let newCell = newRow.insertCell(i)
+        let newText = document.createTextNode(printData[i]);
+        newCell.appendChild(newText)
+    }
+    console.log(document.getElementById('closureTable').rows.length)
+}
+
+function deleteFromTable(e){
+    let rowCount = document.getElementById('closureTable').rows.length
+    let Table = document.getElementById('closureTable').getElementsByTagName('tbody')[0]
+    for (i=0; i<rowCount-1;i++){
+        console.log("at row " + i)
+        console.log("clicked Title is " + e.features[0].properties.Title)
+        console.log("Table title is" +Table.rows[i].cells[0].innerHTML)
+        if (Table.rows[i].cells[0].innerHTML==e.features[0].properties.Title){
+            document.getElementById('closureTable').deleteRow(i+1)
+            return
+        } else{
+            console.log("nothing to delete??")
+        }
+    }
 }
 
 function createPDF() {

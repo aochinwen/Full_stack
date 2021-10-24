@@ -8349,9 +8349,9 @@ a[data-toggle="collapse"] {
 #detail {
   position:absolute; 
   z-index: 5; 
-  opacity:0.9; 
+  opacity:1; 
   height:480px; 
-  max-width:14%; 
+  max-width:14%;        
   overflow-y: scroll;
   overflow-x: hidden; 
   display:none; 
