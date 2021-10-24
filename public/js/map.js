@@ -26,7 +26,8 @@ const map = new mapboxgl.Map({
     preserveDrawingBuffer:true
 });
 
-console.log(DateTime.now().ts)
+//filters = {expired:}
+
 const approved = {
     'id': 'approved',
     'type': 'fill',
@@ -41,7 +42,7 @@ const approved = {
     ],
     'fill-opacity': 0.5,
     },
-    'filter':["all",['==','Status', 'Approved']]
+    'filter':["all",['==','Status', 'Approved'],['>=','EndofClosure',DateTime.now().ts]]
 };
 
 //["all",["==", 'damage', 0],[">=", 'senior_population', 20]]
@@ -75,7 +76,8 @@ const outline = {
         '#f6ff52',
         '#000'
     ],
-    'line-width': 2}
+    'line-width': 2},
+    'filter':["all",['>=','EndofClosure',DateTime.now().ts]]
 };
 
 const layerList = document.getElementById('menu');
@@ -113,8 +115,8 @@ async function getClosures() {
                 ConContacts: closure.ConContacts,
                 Callsign: closure.Callsign,
                 Description: closure.Description,
-                DateofClosure: closure.DateofClosure,
-                EndofClosure: closure.EndofClosure,
+                DateofClosure: DateTime.fromISO(closure.DateofClosure).ts,
+                EndofClosure: DateTime.fromISO(closure.EndofClosure).ts,
                 StartTime: closure.StartTime,
                 EndTime: closure.EndTime,
                 Type: closure.Type,
@@ -195,7 +197,9 @@ function loadmap(closures){
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
-            console.log(e.features[0].properties.EndofClosure)
+            console.log("now is " + DateTime.now().ts)
+            console.log("the closure time is " + e.features[0].properties.EndofClosure)
+            console.log(DateTime.now().ts>e.features[0].properties.EndofClosure)
             new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(e.features[0].properties.Title)
@@ -207,8 +211,8 @@ function loadmap(closures){
             d_Contacts.innerHTML=e.features[0].properties.Contacts;
             d_Callsign.innerHTML=e.features[0].properties.Callsign;
             d_Description.innerHTML=e.features[0].properties.Description;
-            d_StartofClosure.innerHTML=moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do');
-            d_EndofClosure.innerHTML=moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do');
+            d_StartofClosure.innerHTML=DateTime.fromMillis(e.features[0].properties.DateofClosure).toFormat('LLL dd yyyy');
+            d_EndofClosure.innerHTML=DateTime.fromMillis(e.features[0].properties.EndofClosure).toFormat('LLL dd yyyy');
             if (e.features[0].properties.StartTime){
                 d_Time.innerHTML  = e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime;
             } else {
