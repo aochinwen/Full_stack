@@ -57,7 +57,7 @@ function createPDF() {
     style = style + "table {width: 100%;font: 13px Calibri;}";
     style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
     style = style + "padding: 2px 3px;text-align: center;}";
-    style = style + "img {max-width: 100%; max-height: 700px; border-radius: 5px;}"
+    style = style + "img {max-width: 100%; max-height: 500px; border-radius: 5px;}"
     style = style + "button {display:none;}"
     style = style + "</style>";
 
