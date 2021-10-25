@@ -76,6 +76,10 @@ const TaxiwaySchema = new Schema ({
     },
     location: polygonSchema,
 
+    Category: {
+        type: String
+    },
+
     createdAt: {
         type: Date,
         default: Date.now
