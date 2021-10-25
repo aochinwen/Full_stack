@@ -26,15 +26,17 @@ const map = new mapboxgl.Map({
     preserveDrawingBuffer:true
 });
 
-filters = {expired:['>=','EndofClosure',DateTime.now().ts], hideApproved:['!=','Status','Approved'], hidePending:['!=','Status','Pending']}
+filters = {expired:['>=','EndofClosure',DateTime.now().ts], hideApproved:['==','Status','Pending'], hidePending:['==','Status','Approved']}
 layers = ['pending', 'approved','outline'];
 
 
-const approved = {
+let approved = {
     'id': 'approved',
     'type': 'fill',
     'source': 'closures', // reference the data source
-    'layout': {},
+    'layout': {
+        'visibility': 'visible'
+    },
     'paint': {
     'fill-color': [
         'case',
@@ -49,11 +51,13 @@ const approved = {
 
 //["all",["==", 'damage', 0],[">=", 'senior_population', 20]]
 
-const pending = {
+let pending = {
     'id': 'pending',
     'type': 'fill',
     'source': 'closures', // reference the data source
-    'layout': {},
+    'layout': {
+        'visibility': 'visible'
+    },
     'paint': {
     'fill-color': [
         'case',
@@ -63,14 +67,16 @@ const pending = {
     ],
     'fill-opacity': 0.5,
     },
-    'filter':["all",['==','Status', 'Pending'],['>=','EndofClosure',DateTime.now().ts]]
+    'filter':["all",['==','Status', 'Pending'],['>=','EndofClosure',DateTime.now().ts],['==','Status','Pending']]
 };
 
-const outline = {
+let outline = {
     'id': 'outline',
     'type': 'line',
     'source': 'closures',
-    'layout': {},
+    'layout': {
+        'visibility': 'visible'
+    },
     'paint': {
     'line-color': [
         'case',
@@ -82,20 +88,21 @@ const outline = {
     'filter':["all",['>=','EndofClosure',DateTime.now().ts]]
 };
 
-function filterToggle(layer,filterParam){
-    let index = layer.filter.indexOf(filterParam);
-    if (index !== -1) {
-        layer.filter.splice(index, 1);
-    } else{
-        layer.filter.push(filterParam)
-    }
-    console.log(layer.filter)
+function filterToggle(filterParam){
+    const s = [approved, pending, outline]
+    s.forEach(layer => {
+        let index = layer.filter.indexOf(filterParam);
+        if (index !== -1) {
+            layer.filter.splice(index, 1);
+        } else{
+            layer.filter.push(filterParam)
+        }
+        console.log(layer + " has " + layer.filter)
+        map.addLayer(layer);
+    });
+    
 };
-// console.log(typeof(filters.hideApproved))
-// approved.filter.push(filters.hideApproved)
-// pending.filter.push(filters.hidePending)
-// console.log(approved.filter)
-// console.log(typeof(approved.filter))
+
 
 const layerList = document.getElementById('menu');
 const inputs = layerList.getElementsByTagName('input');
@@ -143,7 +150,6 @@ async function getClosures() {
         };
     });
     loadmap(closures);
-    //console.log(closures)
 }
 
 
@@ -167,7 +173,7 @@ function loadmap(closures){
                 });
             // Add a new layer to visualize the polygon.
             map.addLayer(approved);
-    
+            console.log("filter being applied " +pending.filter)
             map.addLayer(pending);
             // Add a black outline around the polygon.
             map.addLayer(outline);
@@ -214,9 +220,6 @@ function loadmap(closures){
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
-            console.log("now is " + DateTime.now().ts)
-            console.log("the closure time is " + e.features[0].properties.EndofClosure)
-            console.log(DateTime.now().ts>e.features[0].properties.EndofClosure)
             new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(e.features[0].properties.Title)

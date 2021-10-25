@@ -96,12 +96,12 @@
                 <div id='map' style='width:100%; min-height: 500px; border-radius: 5px;'> 
                     <div id="state-legend" class="legend">
                         <h6>Status</h6>
-                        <div><span style="background-color: #64bdbb"></span>Approved</div>
-                        <div><span style="background-color: #fbd2d7"></span>Pending</div>
+                        <div onclick="filterToggle(filters.hidePending)"><span style="background-color: #64bdbb"></span>Approved</div>
+                        <div onclick="filterToggle(filters.hideApproved)"><span style="background-color: #fbd2d7"></span>Pending</div>
                     </div>
                 </div>
                 <div id='detail' class="shadow-lg rounded-2 m-2 p-2" tabindex="1">
-                    <h1 class='fw-bold fs-6 pe-auto'>Title: <span id='detail-Title' class="font-weight-normal"></span></h1> 
+                    <h1 class='fw-bold fs-6 pe-auto'>Closure Location: <span id='detail-Title' class="font-weight-normal"></span></h1> 
                     <h1 class='fw-bold fs-6 pe-auto' >Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Project Officer: <span id='detail-ProjectOfficer' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Contacts: <span id='detail-Contacts' class="font-weight-normal"></span></h1>
@@ -128,7 +128,7 @@
                 <table class="table shadow-lg table-bordered table-hover table-responsive-sm" style="border:1px solid lightgrey; border-radius: 5px;" id="closureTable">
                     <thead class="">
                         <tr>
-                            <th>Title</th>
+                            <th>Closure Location</th>
                             <th>Status</th>
                             <th>Project Officer</th>
                             <th>Description</th>
