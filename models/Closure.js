@@ -87,15 +87,4 @@ const TaxiwaySchema = new Schema ({
     
 });
 
-//TaxiwaySchema.index({ 'location': '2dsphere' });
-
-// generate mapbox layer using polygon data
-// TaxiwaySchema.pre('save', async function(next){
-//     const loc = await
-// })
-
-
-
 module.exports = mongoose.model('Closure', TaxiwaySchema )
-//determines the "collection" name in DB mongoose.model("collection name", schema used)
-//module.exports = Closure = mongoose.model("taxiway",TaxiwaySchema);
