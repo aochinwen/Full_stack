@@ -63,7 +63,7 @@ const pending = {
     ],
     'fill-opacity': 0.5,
     },
-    'filter':["all",['==','Status', 'Pending'],['>=','EndofClosure',DateTime.now().ts]]
+    // 'filter':["all",['==','Status', 'Pending'],['>=','EndofClosure',DateTime.now().ts]]
 };
 
 const outline = {
@@ -91,11 +91,6 @@ function filterToggle(layer,filterParam){
     }
     console.log(layer.filter)
 };
-// console.log(typeof(filters.hideApproved))
-// approved.filter.push(filters.hideApproved)
-// pending.filter.push(filters.hidePending)
-// console.log(approved.filter)
-// console.log(typeof(approved.filter))
 
 const layerList = document.getElementById('menu');
 const inputs = layerList.getElementsByTagName('input');
@@ -105,7 +100,6 @@ for (const input of inputs) {
         const layerId = layer.target.id;
         getClosures();
         map.setStyle('mapbox://styles/' + layerId);
-        console.log("attempt to get closures after style change")
     };
 };
 
@@ -114,16 +108,13 @@ async function getClosures() {
     const res = await fetch('/api/v1/closures');
     const data = await res.json();
     console.log('getting closures')
-
+    
     const closures = data.data.map(closure =>{
-        return {
-            type: 'Feature',
-            geometry : {
-                type:'Polygon',
-                coordinates : closure.location.coordinates,
-                
-                },
-            properties: {
+        let feature = closure.location.replace('/','');
+        const geo = JSON.parse(feature)
+        
+        geo.forEach(element => {
+            element.properties = {
                 Title: closure.Title,
                 Company: closure.Company,
                 ProjectOfficer: closure.ProjectOfficer,
@@ -139,11 +130,12 @@ async function getClosures() {
                 Type: closure.Type,
                 Remarks: closure.Remarks,
                 Status: closure.Status
-            }
-        };
+        }
+        });
+        //geo.features.feature.properties = 
+        return geo;
     });
     loadmap(closures);
-    //console.log(closures)
 }
 
 
@@ -152,23 +144,22 @@ async function getClosures() {
 function loadmap(closures){
     console.log('loading closures')
     const mapStates = ['load', 'style.load']
-
     mapStates.forEach(State => {
         map.on(State, () => {
             // Add a data source containing GeoJSON data.
-            
             map.addSource('closures', {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': closures,
-                        },
-                    'generateId': true
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features:closures.flat(),
+                    },
+                    'generateId':true
                 });
             // Add a new layer to visualize the polygon.
             map.addLayer(approved);
     
             map.addLayer(pending);
+            
             // Add a black outline around the polygon.
             map.addLayer(outline);
     
@@ -215,6 +206,7 @@ function loadmap(closures){
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
             console.log("now is " + DateTime.now().ts)
+            console.log(e)
             console.log("the closure time is " + e.features[0].properties.EndofClosure)
             console.log(DateTime.now().ts>e.features[0].properties.EndofClosure)
             new mapboxgl.Popup()
@@ -264,8 +256,8 @@ drawButton.onclick = function() {
     var data = draw.getAll();
     var polyCoord = turf.meta.coordAll(data);
     sessionStorage.setItem("polyCoord", JSON.stringify(polyCoord))
-    document.getElementById('closure-location').value = polyCoord;
-    
+    sessionStorage.setItem("polyData", JSON.stringify(data.features))
+    document.getElementById('closure-location').value = JSON.stringify(data.features);
     if (polyCoord.length > 4) {
             var answer = document.getElementById('coordinates');
             answer.innerHTML = 'coordinates: '

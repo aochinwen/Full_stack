@@ -27,7 +27,7 @@ async function addClosure_POST(e) {
     if (location.value === "" ){
         alert('Please draw closure');
     }
-    let coordinates = {"type": "Polygon", "coordinates": JSON.parse(sessionStorage.getItem("polyCoord"))}
+    let coordinates = sessionStorage.getItem("polyData")
 
     const sendBody = {
         Title: Title.value,
