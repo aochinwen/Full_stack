@@ -3,28 +3,40 @@ function printClosure(){
     layers = ['pending', 'approved'];
     alert('Click on closure to add to table')
     var selectedStateId = null;
-    let IDs = [];
+    let Title = [];
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
+
+            var features = map.querySourceFeatures('closures', {
+                sourceLayer: ['pending','approved'],
+                filter: ["==", "Title", e.features[0].properties.Title]
+            });
+            console.log(features)
             console.log("printClosure")
             
             if (e.features.length > 0) {
                 // if something was clicked before, it'll turn select to false 
-                if (IDs.includes(e.features[0].id)){
-                    map.setFeatureState(
-                        { source: 'closures', id: e.features[0].id },
-                        { select: false }
-                    );
-                    IDs = IDs.filter(a => a !== e.features[0].id)
+                if (Title.includes(e.features[0].properties.Title)){
+                    features.forEach(element => {
+                        map.setFeatureState(
+                            { source: 'closures', id: element.id },
+                            { select: false }
+                        );
+                    });
+                    Title = Title.filter(a => a !== e.features[0].properties.Title)
                     deleteFromTable(e);
                 } else{
-                    selectedStateId = e.features[0].id;
-                    map.setFeatureState(
-                        { source: 'closures', id: selectedStateId },
-                        { select: true }
-                    );
-                    IDs.push(selectedStateId)
+                    features.forEach(element => {
+                        console.log(element)
+                        selectedStateId = element.id;
+                        map.setFeatureState(
+                            { source: 'closures', id: selectedStateId },
+                            { select: true }
+                        );
+                    });
+                    
+                    Title.push(e.features[0].properties.Title)
                     addToTable(e);
                 }
                 
@@ -37,7 +49,7 @@ function printClosure(){
 function addToTable(e){
     let Table = document.getElementById('closureTable').getElementsByTagName('tbody')[0]
     let newRow = Table.insertRow(-1)
-
+    
     let printData = [
         e.features[0].properties.Title,
         e.features[0].properties.Status,
@@ -48,7 +60,6 @@ function addToTable(e){
         e.features[0].properties.Type,
         e.features[0].properties.Remarks
     ];
-    console.log(printData[2])
     for (i=0; i<8; i++){
         let newCell = newRow.insertCell(i)
         let newText = document.createTextNode(printData[i]);
@@ -61,9 +72,6 @@ function deleteFromTable(e){
     let rowCount = document.getElementById('closureTable').rows.length
     let Table = document.getElementById('closureTable').getElementsByTagName('tbody')[0]
     for (i=0; i<rowCount-1;i++){
-        console.log("at row " + i)
-        console.log("clicked Title is " + e.features[0].properties.Title)
-        console.log("Table title is" +Table.rows[i].cells[0].innerHTML)
         if (Table.rows[i].cells[0].innerHTML==e.features[0].properties.Title){
             document.getElementById('closureTable').deleteRow(i+1)
             return

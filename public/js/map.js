@@ -205,10 +205,10 @@ function loadmap(closures){
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
-            console.log("now is " + DateTime.now().ts)
-            console.log(e)
-            console.log("the closure time is " + e.features[0].properties.EndofClosure)
-            console.log(DateTime.now().ts>e.features[0].properties.EndofClosure)
+            // console.log("now is " + DateTime.now().ts)
+            // console.log(e)
+            // console.log("the closure time is " + e.features[0].properties.EndofClosure)
+            // console.log(DateTime.now().ts>e.features[0].properties.EndofClosure)
             new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(e.features[0].properties.Title)
