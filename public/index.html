@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-        <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js' ></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
         <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
         <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.16.0/mapbox-gl-draw.js'></script>
@@ -102,9 +102,11 @@
                 </div>
                 <div id='detail' class="shadow-lg rounded-2 m-2 p-2" tabindex="1">
                     <h1 class='fw-bold fs-6 pe-auto'>Title: <span id='detail-Title' class="font-weight-normal"></span></h1> 
-                    <h1 class='fw-bold fs-6 pe-auto' >Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto'>Category: <span id='detail-Category' class="font-weight-normal"></span></h1> 
+                    <h1 class='fw-bold fs-6 pe-auto' >Request Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Project Officer: <span id='detail-ProjectOfficer' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Contacts: <span id='detail-Contacts' class="font-weight-normal"></span></h1>
+                    <h1 class='fw-bold fs-6 pe-auto' >Contractor Company: <span id='detail-ConCompany' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Contractor: <span id='detail-Contractor' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Contractor Contacts: <span id='detail-ConContacts' class="font-weight-normal"></span></h1>
                     <h1 class='fw-bold fs-6 pe-auto' >Callsign: <span id='detail-Callsign' class="font-weight-normal"></span></h1>
@@ -125,6 +127,14 @@
                 <div id='coordinates' style="display:none"></div>
             </div>
             <div class="p-2 rounded-2" id="divClosureTable" style="display:none;" >
+                
+                <h3>CLOSURE PROGRAMME</h3>
+                <div class="report-title p-2">
+                    <h4>Project Title:</h4> 
+                    <span id="project-title">title-placeholder</span>
+                    <br>
+                </div>
+                
                 <table class="table shadow-lg table-bordered table-hover table-responsive-sm" style="border:1px solid lightgrey; border-radius: 5px;" id="closureTable">
                     <thead class="">
                         <tr>
@@ -139,23 +149,82 @@
                         </tr>
                     </thead>
                     <tbody>
+                    </tbody>
+                </table>
+                <table class = 'table shadow-lg table-bordered table-hover table-responsive-sm" style="border:1px solid lightgrey; border-radius: 5px;' id='approval-table'>
+                    <thead>
+                        <tr>
+                            <th>Requested By:</th>
+                            <th>Supported By:</th>
+                            <th colspan="2">Approved By: (Runway & Taxiway/Taxilane Only)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id='contractor-company'>(Compnay)</td>
+                            <td id='officer-company'></td>
+                            <td id='approver1-position'></td>
+                            <td id='approver2-position'></td>
+                        </tr>
+                        <tr id="names">
+                            <td id='contractor-name'></td>
+                            <td id= 'officer-name'></td>
+                            <td id= 'approver1-name'></td>
+                            <td id= 'approver2-name'></td>
+                        </tr>
+                        <tr>
+                            <td>(Name)</td>
+                            <td>(Name)</td>
+                            <td>(Name)</td>
+                            <td>(Name)</td>
+                        </tr>
+                        <tr id="signature-row">
+                            <td class="signature-cell"></td>
+                            <td class="signature-cell"></td>
+                            <td class="signature-cell"></td>
+                            <td class="signature-cell"></td>
+                        </tr>
+                        <tr>
+                            <td>(Siganature & Date)</td>
+                            <td>(Siganature & Date)</td>
+                            <td>(Siganature & Date)</td>
+                            <td>(Siganature & Date)</td>
+                        </tr>
                         
                     </tbody>
-                    
-                  </table>
-                  <button class="btn btn-primary" onclick="createPDF()">Print</button>
-                  <a href="index.html"><button class="btn btn-secondary">Cancel</button></a>
+                </table>
+                <button class="btn btn-primary" onclick="createPDF()">Print</button>
+                <a href="index.html"><button class="btn btn-secondary">Cancel</button></a>
             </div>
             <div id="closure-form"  style="display:none;" class="shadow border rounded-1 p-3 main-form">
                 <form id="closure-form" class="mb-4 active" autocomplete="off" >
-                    <div class="form-group">
-                        <label for="closure-title">Title: </label>
-                        <input type="text" id="closure-title" class="form-control" required>
+                    <div>
+                        <div class="form-group time">
+                            <label for="closure-title">Title: </label>
+                            <input type="text" id="closure-title" class="form-control" required size='100'>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-category">Category: </label>
+                            <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-category' required>
+                                <option selected>Category of application</option>
+                                <option value="taxilane">Taxiway/Taxilane Closure</option>
+                                <option value="workarea">Work Area</option>
+                                <option value="standclosure">Stand Clsoure</option>
+                                <option value="standrestriction">Stand Restriction</option>
+                                <option value="advisory">Advisory Note</option>
+                            </select>
+                        </div>
                     </div>
+                    
+                    
                     <div>
                         <div class="form-group time">
                             <label for="closure-projectofficer">Project Officer: </label>
                             <input type="text" id="closure-projectofficer" class="form-control" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-company">Company: </label>
+                            <input type="text" id="closure-company" class="form-control"  required>
                         </div>
                         <div class="form-group time">
                             <label for="closure-contacts">Contact Number: </label>
@@ -175,6 +244,10 @@
                         <div class="form-group time">
                             <label for="closure-contractor">Contractor: </label>
                             <input type="text" id="closure-contractor" class="form-control" required>
+                        </div>
+                        <div class="form-group time">
+                            <label for="closure-concompany">Contractor Company: </label>
+                            <input type="text" id="closure-concompany" class="form-control" required>
                         </div>
                         <div class="form-group time">
                             <label for="closure-concontacts">Contact Number: </label>
@@ -197,10 +270,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="closure-company">Company: </label>
-                        <input type="text" id="closure-company" class="form-control"  required>
-                    </div>
+                    
                     
                     <div class="form-group">
                         <label for="closure-callsign">Callsign: </label>

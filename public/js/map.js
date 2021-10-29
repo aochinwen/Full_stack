@@ -13,6 +13,8 @@ const d_Time= document.getElementById("detail-Time");
 const d_Type= document.getElementById("detail-Type");
 const d_Contractor= document.getElementById("detail-Contractor");
 const d_ConContacts= document.getElementById("detail-ConContacts");
+const d_ConCompany= document.getElementById("detail-ConCompany");
+const d_Category = document.getElementById('detail-Category')
 var DateTime = luxon.DateTime;
 var clickedStateId = null;
 
@@ -116,9 +118,11 @@ async function getClosures() {
         geo.forEach(element => {
             element.properties = {
                 Title: closure.Title,
+                Category: closure.Category,
                 Company: closure.Company,
                 ProjectOfficer: closure.ProjectOfficer,
                 Contacts: closure.Contacts,
+                ConCompany: closure.ConCompany,
                 Contractor: closure.Contractor,
                 ConContacts: closure.ConContacts,
                 Callsign: closure.Callsign,
@@ -133,6 +137,7 @@ async function getClosures() {
         }
         });
         //geo.features.feature.properties = 
+        console.log(geo)
         return geo;
     });
     loadmap(closures);
@@ -209,6 +214,7 @@ function loadmap(closures){
             // console.log(e)
             // console.log("the closure time is " + e.features[0].properties.EndofClosure)
             // console.log(DateTime.now().ts>e.features[0].properties.EndofClosure)
+            console.log(e.features[0].properties.Category)
             new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(e.features[0].properties.Title)
@@ -232,6 +238,8 @@ function loadmap(closures){
             d_Type.innerHTML=e.features[0].properties.Type;
             d_Remarks.innerHTML=e.features[0].properties.Remarks;
             d_Status.innerHTML=e.features[0].properties.Status;
+            d_ConCompany.innerHTML = e.features[0].properties.ConCompany;
+            d_Category.innerHTML = e.features[0].properties.Category;
         });
     });
     

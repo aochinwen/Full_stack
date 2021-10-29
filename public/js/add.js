@@ -14,6 +14,8 @@ const StartTime = document.getElementById('closure-StartTime');
 const EndTime = document.getElementById('closure-EndTime')
 const Contractor = document.getElementById('closure-contractor')
 const ConContacts = document.getElementById('closure-concontacts')
+const ConCompany = document.getElementsByTagName('closure-concompany')
+const Category = document.getElementsByTagName('closure-category')
 
 
 // send POST to API to add closure
@@ -31,10 +33,12 @@ async function addClosure_POST(e) {
 
     const sendBody = {
         Title: Title.value,
+        Category: Category.value,
         ProjectOfficer: ProjectOfficer.value,
         Company: Company.value,
         Contacts: Contacts.value,
         Contractor: Contractor.value,
+        ConCompany: ConCompany.value,
         ConContacts: ConContacts.value,
         Callsign: Callsign.value,
         Description: Description.value,

@@ -16,6 +16,9 @@ const TaxiwaySchema = new Schema ({
         type: String,
         required: [true, 'Project title required'],
     },
+    Category:{
+        type: String,
+    },
     ProjectOfficer: {
         type: String,
         required: [true, 'Project officer required'],
@@ -28,6 +31,9 @@ const TaxiwaySchema = new Schema ({
         required: [true, 'Please enter your contacts'],
         minlength: [8, 'Phone number must be equal to 8'],
         maxlength: [8, 'Phone number must be equal to 8']
+    },
+    ConCompany: {
+        type: String,
     },
     Contractor: {
         type: String,
