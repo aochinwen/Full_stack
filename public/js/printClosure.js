@@ -6,6 +6,7 @@ let R_ContractorName = document.getElementById('contractor-name');
 let R_OfficerName = document.getElementById('officer-name');
 let firstClosure = {}
 let R_Contacts = document.getElementById('report-contacts')
+var DateTime = luxon.DateTime;
 
 function printClosure(){
     document.getElementById("divClosureTable").style.display = "block"
@@ -82,10 +83,10 @@ function addToTable(e){
         e.features[0].properties.Status,
         e.features[0].properties.ProjectOfficer,
         e.features[0].properties.Description,
-        moment(e.features[0].properties.DateofClosure).format('YYYY MMMM Do') + " till "+ moment(e.features[0].properties.EndofClosure).format('YYYY MMMM Do'),
+        DateTime.fromMillis(e.features[0].properties.DateofClosure).toFormat('yyyy LLL dd') + " to "+ DateTime.fromMillis(e.features[0].properties.EndofClosure).toFormat('yyyy LLL dd'),
         e.features[0].properties.StartTime + "~" + e.features[0].properties.EndTime,
         e.features[0].properties.Type,
-        e.features[0].properties.Remarks
+        e.features[0].properties.Remarks    
     ];
     for (i=0; i<8; i++){
         let newCell = newRow.insertCell(i)
@@ -119,6 +120,11 @@ function createPDF() {
     document.getElementById('style-selector').style.display='none';
     document.getElementById('state-legend').style.display='none';
     document.getElementById('print-btn').style.display='none';
+    const popup = document.getElementsByClassName('mapboxgl-popup');
+    console.log(popup)
+    if ( popup.length ) {
+        popup[0].remove();
+    }
     window.print();
     document.location.href="/";
 }
