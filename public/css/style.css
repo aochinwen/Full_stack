@@ -8401,9 +8401,9 @@ a[data-toggle="collapse"] {
   z-index:0 !important;
 }
 
-/* .mapboxgl-ctrl{
+.mapboxgl-ctrl{
   display: none !important;
-} */
+}
 
 @media screen and (max-width: 480px) {
   #main{
@@ -8438,4 +8438,20 @@ a[data-toggle="collapse"] {
     padding: 5px;
   }
   
+}
+@media print {
+  .noprint {
+     display: none;
+  }
+  table { page-break-after:auto; page-break-inside:avoid;}
+  tr    { page-break-inside:avoid; page-break-after:auto }
+  td    { page-break-inside:avoid; page-break-after:auto }
+  thead { display:table-header-group }
+  tfoot { display:table-footer-group }
+  #detail {
+    display:none;
+  }
+  button { display:none;}
+
+
 }

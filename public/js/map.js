@@ -137,7 +137,6 @@ async function getClosures() {
         }
         });
         //geo.features.feature.properties = 
-        console.log(geo)
         return geo;
     });
     loadmap(closures);

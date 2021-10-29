@@ -28,14 +28,14 @@
     </head>
     <body>
         <div class="wrapper d-flex align-items-stretch" style="min-height:100vh;">
-			<nav id="sidebar">
+			<nav id="sidebar" class="noprint">
 				<div class="custom-menu">
 					<button type="button" id="sidebarCollapse" class="btn btn-primary ">
 	          <i class="fa fa-bars"></i>
 	          <span class="sr-only">Toggle Menu</span>
 	        </button>
         </div>
-				<div class="p-4">
+			<div class="p-4 noprint">
 		  		<h1><a href="index.html" class="logo">Menu</a></h1>
 	        <ul class="list-unstyled components mb-5">
 	          <li class="active menuButton">
@@ -71,7 +71,7 @@
             </style>
             
             <div id="menu" class="d-flex" >
-                <div class=" text-center"style="height: 25px;">
+                <div id='style-selector'class=" text-center"style="height: 25px;">
                     <input id="mapbox/satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
                     <label for="satellite-v9">satellite</label>
                     <input id="mapbox/light-v10" type="radio" name="rtoggle" value="light">
@@ -100,7 +100,7 @@
                         <div><span style="background-color: #fbd2d7"></span>Pending</div>
                     </div>
                 </div>
-                <div id='detail' class="shadow-lg rounded-2 m-2 p-2" tabindex="1">
+                <div id='detail' class="noprint shadow-lg rounded-2 m-2 p-2" tabindex="1">
                     <h1 class='fw-bold fs-6 pe-auto'>Title: <span id='detail-Title' class="font-weight-normal"></span></h1> 
                     <h1 class='fw-bold fs-6 pe-auto'>Category: <span id='detail-Category' class="font-weight-normal"></span></h1> 
                     <h1 class='fw-bold fs-6 pe-auto' >Request Company: <span id='detail-Company' class="font-weight-normal"></span></h1>
@@ -128,73 +128,86 @@
             </div>
             <div class="p-2 rounded-2" id="divClosureTable" style="display:none;" >
                 
-                <h3>CLOSURE PROGRAMME</h3>
+                <h4 class="p-2">CLOSURE PROGRAMME</h4>
                 <div class="report-title p-2">
-                    <h4>Project Title:</h4> 
-                    <span id="project-title">title-placeholder</span>
+                    <h5>Twy Closure Approval No:</h5>
+                    <div style="display:flex">
+                        <h5>Project Title:</h5> 
+                    <h6 id="project-title">title-placeholder</h6>
+                    </div>
+                    
                     <br>
+                    <span>For clarification, please call handphone:</span>
+                    <br>
+                    <span id="report-contacts"></span>
+                </div>
+                <div>
+                    <table class="table shadow-lg table-bordered table-hover table-responsive-sm" style="border:1px solid lightgrey; border-radius: 5px; padding-bottom: 20px;" id="closureTable">
+                        <thead class="">
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Project Officer</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-body">
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class = 'table shadow-lg table-bordered table-hover table-responsive-sm" style="border:1px solid lightgrey; border-radius: 5px p-3;' id='approval-table'>
+                        <thead>
+                            <tr>
+                                <th>Requested By:</th>
+                                <th>Supported By:</th>
+                                <th colspan="2">Approved By: (Runway & Taxiway/Taxilane Only)</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center">
+                            <tr height='100px'>
+                                <td id='contractor-company'>(Compnay)</td>
+                                <td id='officer-company'></td>
+                                <td id='approver1-position'></td>
+                                <td id='approver2-position'></td>
+                            </tr>
+                            <tr id="names">
+                                <td id='contractor-name'></td>
+                                <td id= 'officer-name'></td>
+                                <td id= 'approver1-name'></td>
+                                <td id= 'approver2-name'></td>
+                            </tr>
+                            <tr>
+                                <td>(Name)</td>
+                                <td>(Name)</td>
+                                <td>(Name)</td>
+                                <td>(Name)</td>
+                            </tr>
+                            <tr id="signature-row" height="200px">
+                                <td class="signature-cell"></td>
+                                <td class="signature-cell"></td>
+                                <td class="signature-cell"></td>
+                                <td class="signature-cell"></td>
+                            </tr>
+                            <tr>
+                                <td>(Siganature & Date)</td>
+                                <td>(Siganature & Date)</td>
+                                <td>(Siganature & Date)</td>
+                                <td>(Siganature & Date)</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div id='print-btn'>
+                    <button class="btn btn-primary" onclick="createPDF()">Print</button>
+                    <a href="index.html"><button class="btn btn-secondary">Cancel</button></a>
                 </div>
                 
-                <table class="table shadow-lg table-bordered table-hover table-responsive-sm" style="border:1px solid lightgrey; border-radius: 5px;" id="closureTable">
-                    <thead class="">
-                        <tr>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Project Officer</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Type</th>
-                            <th>Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <table class = 'table shadow-lg table-bordered table-hover table-responsive-sm" style="border:1px solid lightgrey; border-radius: 5px;' id='approval-table'>
-                    <thead>
-                        <tr>
-                            <th>Requested By:</th>
-                            <th>Supported By:</th>
-                            <th colspan="2">Approved By: (Runway & Taxiway/Taxilane Only)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id='contractor-company'>(Compnay)</td>
-                            <td id='officer-company'></td>
-                            <td id='approver1-position'></td>
-                            <td id='approver2-position'></td>
-                        </tr>
-                        <tr id="names">
-                            <td id='contractor-name'></td>
-                            <td id= 'officer-name'></td>
-                            <td id= 'approver1-name'></td>
-                            <td id= 'approver2-name'></td>
-                        </tr>
-                        <tr>
-                            <td>(Name)</td>
-                            <td>(Name)</td>
-                            <td>(Name)</td>
-                            <td>(Name)</td>
-                        </tr>
-                        <tr id="signature-row">
-                            <td class="signature-cell"></td>
-                            <td class="signature-cell"></td>
-                            <td class="signature-cell"></td>
-                            <td class="signature-cell"></td>
-                        </tr>
-                        <tr>
-                            <td>(Siganature & Date)</td>
-                            <td>(Siganature & Date)</td>
-                            <td>(Siganature & Date)</td>
-                            <td>(Siganature & Date)</td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-                <button class="btn btn-primary" onclick="createPDF()">Print</button>
-                <a href="index.html"><button class="btn btn-secondary">Cancel</button></a>
             </div>
             <div id="closure-form"  style="display:none;" class="shadow border rounded-1 p-3 main-form">
                 <form id="closure-form" class="mb-4 active" autocomplete="off" >

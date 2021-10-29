@@ -1,3 +1,12 @@
+
+let ProjectTitle = document.getElementById('project-title');
+let R_ConCompany = document.getElementById('contractor-company');
+let R_OfficerCompany = document.getElementById('officer-company');
+let R_ContractorName = document.getElementById('contractor-name');
+let R_OfficerName = document.getElementById('officer-name');
+let firstClosure = {}
+let R_Contacts = document.getElementById('report-contacts')
+
 function printClosure(){
     document.getElementById("divClosureTable").style.display = "block"
     layers = ['pending', 'approved'];
@@ -28,7 +37,6 @@ function printClosure(){
                     deleteFromTable(e);
                 } else{
                     features.forEach(element => {
-                        console.log(element)
                         selectedStateId = element.id;
                         map.setFeatureState(
                             { source: 'closures', id: selectedStateId },
@@ -46,10 +54,26 @@ function printClosure(){
     });
 }
 
+function populateDetail(Table,e){
+    firstrow = Table.getElementsByTagName("tr")[0];
+    firstTitle = firstrow.getElementsByTagName("td")[0];
+    console.log(firstTitle.innerHTML)
+    ProjectTitle.innerHTML = firstTitle.innerHTML
+    R_ConCompany.innerHTML = e.features[0].properties.ConCompany
+    R_OfficerCompany.innerHTML = e.features[0].properties.Company
+    R_ContractorName.innerHTML = e.features[0].properties.Contractor
+    R_OfficerName.innerHTML = e.features[0].properties.ProjectOfficer
+    R_Contacts.innerHTML = `Project Officer: ${e.features[0].properties.ProjectOfficer} (${e.features[0].properties.Contacts}) Contractor: ${e.features[0].properties.Contractor} (${e.features[0].properties.ConContacts}) / ${e.features[0].properties.Callsign}`
+
+}
+
 function addToTable(e){
-    let Table = document.getElementById('closureTable').getElementsByTagName('tbody')[0]
-    let newRow = Table.insertRow(-1)
-    
+    let Table = document.getElementById('closureTable').getElementsByTagName('tbody')[0];
+    let newRow = Table.insertRow(-1);
+    console.log(typeof(e.features[0].properties))
+    if (firstClosure.length==0){
+        Object.assign(firstClosure,e.features[0].properties);
+    }
     let printData = [
         e.features[0].properties.Title,
         e.features[0].properties.Status,
@@ -65,7 +89,13 @@ function addToTable(e){
         let newText = document.createTextNode(printData[i]);
         newCell.appendChild(newText)
     }
-    console.log(document.getElementById('closureTable').rows.length)
+    console.log(Table.rows.length)
+    if (Table.rows.length<2){
+        console.log(firstClosure)
+        populateDetail(Table,e)
+    }
+    
+
 }
 
 function deleteFromTable(e){
@@ -82,35 +112,10 @@ function deleteFromTable(e){
 }
 
 function createPDF() {
-    let sTable = document.getElementById('divClosureTable').innerHTML;
-    var img = new Image();
-    var mapCanvas = document.querySelector('.mapboxgl-canvas');
-    img.src = mapCanvas.toDataURL();
-    
-    
-    var style = "<style>";
-    style = style + "* { font-family: Calibri;}"
-    style = style + "table {width: 100%;font: 13px Calibri;}";
-    style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
-    style = style + "padding: 2px 3px;text-align: center;}";
-    style = style + "img {max-width: 100%; max-height: 500px; border-radius: 5px;}"
-    style = style + "button {display:none;}"
-    style = style + "</style>";
-
-    // CREATE A WINDOW OBJECT.
-    let win = window.open('', '', 'height=1754,width=1240');
-
-    win.document.write('<html><head>');
-    win.document.write('<title>Closure List</title>');   // <title> FOR PDF HEADER.
-    win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
-    win.document.write('</head>');
-    win.document.write('<body>');
-    win.document.body.appendChild(img);
-    win.document.write('<h2> List of Closures </h2>')
-    win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
-    win.document.write('</body></html>');
-
-    win.document.close(); 	// CLOSE THE CURRENT WINDOW.
-
-    win.print();    // PRINT THE CONTENTS.
+    document.getElementById('detail').style.display="none";
+    document.getElementById('style-selector').style.display='none';
+    document.getElementById('state-legend').style.display='none';
+    document.getElementById('print-btn').style.display='none';
+    window.print();
+    document.location.href="/";
 }
