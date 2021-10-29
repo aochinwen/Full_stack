@@ -16,17 +16,20 @@ function printClosure(){
     //populate detail panel
     layers.forEach(layer => {
         map.on('click', layer, (e) => {
-
+            console.log(Title)
             var features = map.querySourceFeatures('closures', {
-                sourceLayer: ['pending','approved'],
+                Layer: ['pending','approved'],
                 filter: ["==", "Title", e.features[0].properties.Title]
             });
             console.log(features)
             console.log("printClosure")
             
             if (e.features.length > 0) {
+                console.log('ok1')
+                console.log(Title)
                 // if something was clicked before, it'll turn select to false 
                 if (Title.includes(e.features[0].properties.Title)){
+                    console.log('not ok')
                     features.forEach(element => {
                         map.setFeatureState(
                             { source: 'closures', id: element.id },
@@ -36,6 +39,7 @@ function printClosure(){
                     Title = Title.filter(a => a !== e.features[0].properties.Title)
                     deleteFromTable(e);
                 } else{
+                    console.log('ok1')
                     features.forEach(element => {
                         selectedStateId = element.id;
                         map.setFeatureState(
@@ -57,7 +61,6 @@ function printClosure(){
 function populateDetail(Table,e){
     firstrow = Table.getElementsByTagName("tr")[0];
     firstTitle = firstrow.getElementsByTagName("td")[0];
-    console.log(firstTitle.innerHTML)
     ProjectTitle.innerHTML = firstTitle.innerHTML
     R_ConCompany.innerHTML = e.features[0].properties.ConCompany
     R_OfficerCompany.innerHTML = e.features[0].properties.Company

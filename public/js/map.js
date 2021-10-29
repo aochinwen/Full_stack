@@ -65,7 +65,7 @@ const pending = {
     ],
     'fill-opacity': 0.5,
     },
-    // 'filter':["all",['==','Status', 'Pending'],['>=','EndofClosure',DateTime.now().ts]]
+    'filter':["all",['==','Status', 'Pending'],['>=','EndofClosure',DateTime.now().ts]]
 };
 
 const outline = {

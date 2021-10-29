@@ -14,8 +14,8 @@ const StartTime = document.getElementById('closure-StartTime');
 const EndTime = document.getElementById('closure-EndTime')
 const Contractor = document.getElementById('closure-contractor')
 const ConContacts = document.getElementById('closure-concontacts')
-const ConCompany = document.getElementsByTagName('closure-concompany')
-const Category = document.getElementsByTagName('closure-category')
+const ConCompany = document.getElementById('closure-concompany')
+const Category = document.getElementById('closure-category')
 
 
 // send POST to API to add closure
