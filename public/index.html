@@ -26,7 +26,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js" integrity="sha512-tVYBzEItJit9HXaWTPo8vveXlkK62LbA+wez9IgzjTmFNLMBO1BEYladBw2wnM3YURZSMUyhayPCoLtjGh84NQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
-    <body>
+    <body style='display: none;'>
         <div class="wrapper d-flex align-items-stretch" style="min-height:100vh;">
 			<nav id="sidebar" class="noprint">
 				<div class="custom-menu">
@@ -38,18 +38,24 @@
 			<div class="p-4 noprint">
 		  		<h1><a href="index.html" class="logo">Menu</a></h1>
 	        <ul class="list-unstyled components mb-5">
-	          <li class="active menuButton">
-	            <a href="index.html"><span class="fa fa-home mr-3"></span> Home</a>
-	          </li>
-	          <li class="menuButton">
-	              <a href="#"><span class="fa fa-user mr-3 " id="closerList"></span>Closure List</a>
-	          </li>
-	          <li class="menuButton">
-              <a href="#" onclick="toggleDrawPolygon()"><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
-	          </li>
-	          <li class="menuButton">
-              <a href="#" onclick="printClosure()"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Print Closure</a>
-	          </li>
+                <li class="active menuButton">
+                    <a href="index.html"><span class="fa fa-home mr-3"></span> Home</a>
+                </li>
+                <li class="menuButton">
+                    <a href="#"><span class="fa fa-user mr-3 " id="closerList"></span>Closure List</a>
+                </li>
+                <li class="menuButton">
+                <a href="#" onclick="toggleDrawPolygon()"><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
+                </li>
+                <li class="menuButton">
+                <a href="#" onclick="printClosure()"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Print Closure</a>
+                </li>
+                <li class="menuButton" id="users">
+                    <a href="admin.html"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Users List</a>
+                </li>
+                <li class="menuButton">
+                    <a href="#" onclick="signOut()"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Sign Out</a>
+                </li>
 	        </ul>
 	      </div>
     	</nav>
@@ -194,10 +200,10 @@
                                 <td class="signature-cell"></td>
                             </tr>
                             <tr>
-                                <td>(Siganature & Date)</td>
-                                <td>(Siganature & Date)</td>
-                                <td>(Siganature & Date)</td>
-                                <td>(Siganature & Date)</td>
+                                <td>(Signature & Date)</td>
+                                <td>(Signature & Date)</td>
+                                <td>(Signature & Date)</td>
+                                <td>(Signature & Date)</td>
                             </tr>
                             
                         </tbody>
@@ -315,6 +321,13 @@
         
         
         <script>
+            if(localStorage.getItem('taxiway_role') !== 'SuperAdmin'){
+                document.getElementById('users').style.display = 'none'
+            }
+            if(!localStorage.getItem('taxiway_role'))
+                location.href='login.html'
+            else
+                document.getElementsByTagName('body')[0].style.display = 'block'
             function toggleDrawPolygon(){
                 let button = document.getElementById('confirmPolygon');
                 alert("please draw closure on map");
@@ -348,5 +361,6 @@
         <script src="js/main.js"></script>
         <script src="js/add.js"></script>
         <script src="js/filter.js"></script>
+        <script src="js/signout.js"></script>
     </body>
 </html>

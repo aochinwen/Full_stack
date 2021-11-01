@@ -8401,9 +8401,9 @@ a[data-toggle="collapse"] {
   z-index:0 !important;
 }
 
-.mapboxgl-ctrl{
+/* .mapboxgl-ctrl{
   display: none !important;
-}
+} */
 
 @media screen and (max-width: 480px) {
   #main{

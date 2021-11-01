@@ -1,6 +1,7 @@
 const express = require ('express');
 const {addClosure_POST, getClosures_GET, destroy_DELETE}  = require ('../controllers/closures');
 var closures = require('../controllers/closures');
+const {admin_auth, user_auth}  = require ('../controllers/auth');
 
 
 const router = express.Router();
@@ -12,8 +13,11 @@ router
     .post(addClosure_POST)
     .delete(destroy_DELETE)
 
+router.use(user_auth)
 router.get('/closures/get', closures.getClosures_GET);
 router.post('/closures/add', closures.addClosure_POST);
+
+router.use(admin_auth)
 router.delete('/closures/delete', closures.destroy_DELETE);
 router.post('/closures/filter_PIC_POST', closures.filter_PIC_POST);
 router.post('/closures/filter_date_POST', closures.filter_date_POST);

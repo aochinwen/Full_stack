@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Taxiway Closure App</title>
+        <meta name="Taxiway-closure" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/jquery.min.js"></script>
+
+    </head>
+    <body style='display: none;'>
+        <div class="wrapper d-flex align-items-stretch" style="min-height:100vh;">
+			<nav id="sidebar" class="noprint">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary ">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+			<div class="p-4 noprint">
+		  		<h1><a href="index.html" class="logo">Menu</a></h1>
+	        <ul class="list-unstyled components mb-5">
+                <li class="active menuButton">
+                    <a href="index.html"><span class="fa fa-home mr-3"></span> Home</a>
+                </li>
+                <li class="menuButton">
+                    <a href="index.html"><span class="fa fa-user mr-3 " id="closerList"></span>Closure List</a>
+                </li>
+                <li class="menuButton">
+                <a href="index.html" ><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
+                </li>
+                <li class="menuButton">
+                <a href="index.html"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Print Closure</a>
+                </li>
+                <li class="menuButton" id="users">
+                    <a href="admin.html"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Users List</a>
+                </li>
+                <li class="menuButton">
+                    <a href="#" onclick="signOut()"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Sign Out</a>
+                </li>
+	        </ul>
+	      </div>
+    	</nav>
+        <div class="container my-3">
+            <h1 class='display-4 text-center'>
+                <i class='fas fa-map-marked mr-4'></i>All Users List
+            </h1>
+            <table id="usersTable" class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone No</th>
+                        <th>Role</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableData">
+                    <tr>
+                        <td>Please wait</td>
+                    </tr>
+                </tbody>
+            </table>
+            <input id="updateRecordEmail" type="hidden" />
+            <div id="usersRole" style="display: none">
+                <div class="form-group">
+                    <select class="form-control border" id="userRole">
+                        <option>Select Role</option>
+                        <option value="SuperAdmin">Super Admin</option>
+                        <option value="Admin">Admin</option>
+                        <option value="User">Normal User</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="updateRole()">Update</button>
+            </div>
+        </div>
+
+        
+        
+        <script>
+            let authToken = localStorage.getItem('taxiway_token')
+
+            if(localStorage.getItem('taxiway_role') !== 'SuperAdmin'){
+                document.getElementById('users').style.display = 'none'
+            }
+            if(!localStorage.getItem('taxiway_role'))
+                location.href='login.html'
+            else
+                document.getElementsByTagName('body')[0].style.display = 'block'
+
+
+            function updateRole(){
+                let role = $("#userRole").val()
+                let email = $("#updateRecordEmail").val()
+                console.log(role)
+                console.log(email)
+
+                fetch('/api/v1/users/setRole',{
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': authToken
+
+                    },
+                    body: JSON.stringify({email: email, role: role})
+                }).then(async res => {
+                    location.reload()
+                })
+            }
+            function deleteUser(email){
+                email = email.replace('delete_','')
+
+                fetch('/api/v1/users/deleteUser',{
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': authToken
+
+                    },
+                    body: JSON.stringify({email: email})
+                }).then(async res => {
+                    location.reload()
+                })
+            }
+
+            fetch('/api/v1/users/getAllUsers',{
+                method:'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': authToken
+                },
+            }).then(async res => {
+                if(res.status === 200){
+                    res = await res.json()
+                    let tableData = ''
+                    for(let i = 0;i<res.users.length;i++){
+                        let user = res.users[i]
+                        tableData += '<tr><td>'+user.name+'</td><td>'+user.email+'</td><td>'+user.phone+'</td><td>'+user.role+'</td><td><button id="'+user.email+'" class="btn btn-success updateButton mr-3">Edit</button><button id="delete_'+user.email+'" class="btn btn-success deleteButton">Delete</button></td></tr>'
+                    }
+                    document.getElementById('tableData').innerHTML = tableData
+                    
+                const btns = document.querySelectorAll(".updateButton")
+                const deletebtns = document.querySelectorAll(".deleteButton")
+
+                btns.forEach(btn => {
+
+                    btn.addEventListener('click', event => {
+                        document.getElementById('updateRecordEmail').value = event.target.id;
+                        document.getElementById('usersTable').style.display = 'none';
+                        document.getElementById('usersRole').style.display = 'block';                        
+                    });
+
+                });
+                deletebtns.forEach(btn => {
+                    btn.addEventListener('click', event => {
+                        let res = confirm("Are you sure to delete this account")
+                        console.log(res)
+                        if(res){
+                            deleteUser(event.target.id)
+                        }
+                    });
+
+                });
+                }
+                else if(res.status === 403)
+                    alert('You are not authorized to perform this action')
+                else if(res.status === 401)
+                    location.href = '/login.html'
+                
+            })
+
+
+        </script>
+        <script src="js/signout.js"></script>
+    </body>
+</html>

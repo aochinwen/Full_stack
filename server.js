@@ -34,8 +34,11 @@ app.use(bodyParser.urlencoded({
 
 //Routes
 app.use('/api/v1/closures', require('./routes/closures'));
+app.use('/api/v1/users', require('./routes/users'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, ()=> console.log(`Server running at ${process.env.NODE_ENV} mode on port ${PORT}`))
 
+
+// http://localhost:3000/api/v1/users/setSuperAdminRole?id=OZdPePejk9ND6arpaRgIaGMwldp1
