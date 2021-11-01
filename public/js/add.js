@@ -22,11 +22,11 @@ const Category = document.getElementById('closure-category')
 async function addClosure_POST(e) {
     e.preventDefault();
 
-    if (Title.value === "" || ProjectOfficer.value === "" || Contacts.value === ""){
+    if (Title.value === "" || ProjectOfficer.value === "" || Contacts.value === "") {
         alert('Please fill in missing fields');
     }
 
-    if (location.value === "" ){
+    if (location.value === "") {
         alert('Please draw closure');
     }
     let coordinates = sessionStorage.getItem("polyData")
@@ -53,16 +53,22 @@ async function addClosure_POST(e) {
 
 
     try {
-        const res = await fetch('/api/v1/closures',{
-            method:'POST',
+        let authToken = localStorage.getItem('taxiway_token')
+        const res = await fetch('/api/v1/closures', {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': authToken
             },
             body: JSON.stringify(sendBody)
         });
-        if (res.status === 400){
+        if (res.status === 400) {
             throw Error('Server error')
         }
+        else if (res.status === 403)
+            alert('You are not authorized to perform this action')
+        else if (res.status === 401)
+            location.href = '/login.html'
 
         alert('Closure added!');
         window.location.href = '/index.html';

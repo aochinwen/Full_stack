@@ -68,6 +68,7 @@
                 </tbody>
             </table>
             <input id="updateRecordEmail" type="hidden" />
+            <input id="updateRecordPhone" type="hidden" />
             <div id="usersRole" style="display: none">
                 <div class="form-group">
                     <select class="form-control border" id="userRole">
@@ -98,8 +99,13 @@
             function updateRole(){
                 let role = $("#userRole").val()
                 let email = $("#updateRecordEmail").val()
+                let phone = $("#updateRecordPhone").val()
                 console.log(role)
                 console.log(email)
+                console.log(phone)
+                let sentObject = {email: email, role:role}
+                if(email === '')
+                    sentObject = {phone: phone, role:role}
 
                 fetch('/api/v1/users/setRole',{
                     method:'POST',
@@ -108,13 +114,16 @@
                         'authorization': authToken
 
                     },
-                    body: JSON.stringify({email: email, role: role})
+                    body: JSON.stringify(sentObject)
                 }).then(async res => {
                     location.reload()
                 })
             }
-            function deleteUser(email){
+            function deleteUser(email, phone){
                 email = email.replace('delete_','')
+                let sentObject = {email: email}
+                if(email === '')
+                    sentObject = {phone: phone}
 
                 fetch('/api/v1/users/deleteUser',{
                     method:'POST',
@@ -123,7 +132,7 @@
                         'authorization': authToken
 
                     },
-                    body: JSON.stringify({email: email})
+                    body: JSON.stringify(sentObject)
                 }).then(async res => {
                     location.reload()
                 })
@@ -141,7 +150,7 @@
                     let tableData = ''
                     for(let i = 0;i<res.users.length;i++){
                         let user = res.users[i]
-                        tableData += '<tr><td>'+user.name+'</td><td>'+user.email+'</td><td>'+user.phone+'</td><td>'+user.role+'</td><td><button id="'+user.email+'" class="btn btn-success updateButton mr-3">Edit</button><button id="delete_'+user.email+'" class="btn btn-success deleteButton">Delete</button></td></tr>'
+                        tableData += '<tr><td>'+user.name+'</td><td>'+user.email+'</td><td>'+user.phone+'</td><td>'+user.role+'</td><td><button id="'+user.email+'" data-phone="'+user.phone+'" class="btn btn-success updateButton mr-3">Edit</button><button id="delete_'+user.email+'" data-phone="'+user.phone+'" class="btn btn-success deleteButton">Delete</button></td></tr>'
                     }
                     document.getElementById('tableData').innerHTML = tableData
                     
@@ -152,6 +161,7 @@
 
                     btn.addEventListener('click', event => {
                         document.getElementById('updateRecordEmail').value = event.target.id;
+                        document.getElementById('updateRecordPhone').value = event.target.getAttribute('data-phone');
                         document.getElementById('usersTable').style.display = 'none';
                         document.getElementById('usersRole').style.display = 'block';                        
                     });
@@ -162,7 +172,7 @@
                         let res = confirm("Are you sure to delete this account")
                         console.log(res)
                         if(res){
-                            deleteUser(event.target.id)
+                            deleteUser(event.target.id, event.target.getAttribute('data-phone'))
                         }
                     });
 

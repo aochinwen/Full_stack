@@ -31,7 +31,7 @@ async function isAuthorized (authorization, role, res, next) {
         return next();
     }
     catch (err) {
-        console.error('error', error)
+        console.error('error', err)
         console.error(`${err.code} -  ${err.message}`)
         return res.status(401).send({ message: 'Unauthorized' })
     }
