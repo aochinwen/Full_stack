@@ -46,7 +46,7 @@
                         params = "phone="+authResult.user.phoneNumber
 
                     console.log(params)
-                    const response = fetch('http://localhost:3000/api/v1/users/getUserRole?'+params).then(async response => {
+                    const response = fetch('https://taxiway-closure.herokuapp.com/api/v1/users/getUserRole?'+params).then(async response => {
                         let role = await response.json()
                         console.log(role.role)
                         if(!role.role){
