@@ -30,8 +30,42 @@ const map = new mapboxgl.Map({
 });
 
 filters = { expired: ['>=', 'EndofClosure', DateTime.now().ts], hideApproved: ['!=', 'Status', 'Approved'], hidePending: ['!=', 'Status', 'Pending'] }
-layers = ['pending', 'approved', 'outline'];
+var layers = ['pending', 'approved', 'outline','standRestriction','standClosure'];
 
+
+const standClosure = {
+    'id': 'standClosure',
+    'type': 'fill',
+    'source': 'closures', // reference the data source
+    'layout': {},
+    'paint': {
+        'fill-color': [
+            'case',
+            ['boolean', ['feature-state', 'click'], false],
+            '#f6ff52',
+            '#FF0000'
+        ],
+        'fill-opacity': 0.5,
+    },
+    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'standclosure']]
+};
+
+const standRestriction = {
+    'id': 'standRestriction',
+    'type': 'fill',
+    'source': 'closures', // reference the data source
+    'layout': {},
+    'paint': {
+        'fill-color': [
+            'case',
+            ['boolean', ['feature-state', 'click'], false],
+            '#f6ff52',
+            '#fdfd96'
+        ],
+        'fill-opacity': 0.5,
+    },
+    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'standrestriction']]
+};
 
 const approved = {
     'id': 'approved',
@@ -47,7 +81,7 @@ const approved = {
         ],
         'fill-opacity': 0.5,
     },
-    'filter': ["all", ['==', 'Status', 'Approved'], ['>=', 'EndofClosure', DateTime.now().ts]]
+    'filter': ["all", ['==', 'Status', 'Approved'], ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'taxilane']]
 };
 
 //["all",["==", 'damage', 0],[">=", 'senior_population', 20]]
@@ -66,7 +100,7 @@ const pending = {
         ],
         'fill-opacity': 0.5,
     },
-    'filter': ["all", ['==', 'Status', 'Pending'], ['>=', 'EndofClosure', DateTime.now().ts]]
+    'filter': ["all", ['==', 'Status', 'Pending'], ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'taxilane']]
 };
 
 const outline = {
@@ -178,7 +212,8 @@ function loadmap(closures) {
             map.addLayer(approved);
 
             map.addLayer(pending);
-
+            map.addLayer(standRestriction);
+            map.addLayer(standClosure);
             // Add a black outline around the polygon.
             map.addLayer(outline);
 

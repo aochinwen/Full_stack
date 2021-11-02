@@ -172,8 +172,8 @@ svg {
   overflow: hidden;
   vertical-align: middle; }
 
-table {
-  border-collapse: collapse; }
+/* table {
+  border-collapse: collapse; } */
 
 caption {
   padding-top: 0.75rem;
@@ -8114,11 +8114,11 @@ a.text-dark:hover, a.text-dark:focus {
     display: none; }
   .badge {
     border: 1px solid #000; }
-  .table {
+  /* .table {
     border-collapse: collapse !important; }
     .table td,
     .table th {
-      background-color: #fff !important; }
+      background-color: #fff !important; } */
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #dee2e6 !important; }
@@ -8439,6 +8439,9 @@ a[data-toggle="collapse"] {
   }
   
 }
+
+.highlight { background-color: lightcoral; }
+
 @media print {
   .noprint {
      display: none;
