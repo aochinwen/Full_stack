@@ -132,6 +132,10 @@ function createPDF() {
         popup[0].remove();
     }
     window.print();
-    setTimeout(function(){ document.location.href="/"; }, 20000);
+    
+    setTimeout(function(){ 
+        document.getElementById('cancel-button').innerHTML="Done"; 
+        document.getElementById('print-btn').style.display='block';
+    }, 2000);
     
 }
