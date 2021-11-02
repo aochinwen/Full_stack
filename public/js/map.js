@@ -30,8 +30,42 @@ const map = new mapboxgl.Map({
 });
 
 filters = { expired: ['>=', 'EndofClosure', DateTime.now().ts], hideApproved: ['!=', 'Status', 'Approved'], hidePending: ['!=', 'Status', 'Pending'] }
-var layers = ['pending', 'approved', 'outline','standRestriction','standClosure'];
+var layers = ['pending', 'approved', 'outline','standRestriction','standClosure','workArea','advisory'];
 
+
+const advisory = {
+    'id': 'advisory',
+    'type': 'fill',
+    'source': 'closures', // reference the data source
+    'layout': {},
+    'paint': {
+        'fill-color': [
+            'case',
+            ['boolean', ['feature-state', 'click'], false],
+            '#f6ff52',
+            '#007FFF'
+        ],
+        'fill-opacity': 0.5,
+    },
+    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'advisory']]
+};
+
+const workArea = {
+    'id': 'workArea',
+    'type': 'line',
+    'source': 'closures',
+    'layout': {},
+    'paint': {
+        'line-color': [
+            'case',
+            ['boolean', ['feature-state', 'select'], false],
+            '#f6ff52',
+            '#FF0000'
+        ],
+        'line-width': 2
+    },
+    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'workarea']]
+};
 
 const standClosure = {
     'id': 'standClosure',
@@ -117,7 +151,7 @@ const outline = {
         ],
         'line-width': 2
     },
-    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts]]
+    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts], ['!=','Category','workarea']]
 };
 
 function filterToggle(layer, filterParam) {
@@ -216,8 +250,10 @@ function loadmap(closures) {
             map.addLayer(pending);
             map.addLayer(standRestriction);
             map.addLayer(standClosure);
+            map.addLayer(advisory);
             // Add a black outline around the polygon.
             map.addLayer(outline);
+            map.addLayer(workArea);
 
             //create hover effect
             layers.forEach(layer => {

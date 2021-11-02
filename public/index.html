@@ -39,22 +39,19 @@
 		  		<h1><a href="index.html" class="logo">Menu</a></h1>
 	        <ul class="list-unstyled components mb-5">
                 <li class="active menuButton">
-                    <a href="index.html"><span class="fa fa-home mr-3"></span> Home</a>
-                </li>
-                <li class="menuButton">
-                    <a href="#"><span class="fa fa-user mr-3 " id="closerList"></span>Closure List</a>
+                    <a href="index.html"><span class="fa fa-home mr-3"></span>Home</a>
                 </li>
                 <li class="menuButton">
                 <a href="#" onclick="toggleDrawPolygon()"><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
                 </li>
                 <li class="menuButton">
-                <a href="#" onclick="printClosure()"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Print Closure</a>
+                <a href="#" onclick="printClosure()"><span class="fa fa-print mr-3" id="printClosure"></span>Print Closure Form</a>
                 </li>
                 <li class="menuButton" id="users">
-                    <a href="admin.html"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Users List</a>
+                    <a href="admin.html"><span class="fa fa-user mr-3" id="printClosure"></span>Users List</a>
                 </li>
                 <li class="menuButton">
-                    <a href="#" onclick="signOut()"><span class="fa fa-sticky-note mr-3" id="printClosure"></span>Sign Out</a>
+                    <a href="#" onclick="signOut()"><span class="fas fa-sign-out-alt mr-3" id="printClosure"></span>Sign Out</a>
                 </li>
 	        </ul>
 	      </div>
@@ -106,7 +103,8 @@
                         <div><span style="background-color: #fbd2d7"></span>Pending</div>
                         <div><span style="background-color: #fdfd96"></span>Stand Restriction</div>
                         <div><span style="background-color: #FF0000"></span>Stand Closure</div>
-
+                        <div><span style="border:solid 2px #FF0000"></span>Work Area</div>
+                        <div><span style="background-color: #007FFF"></span>Advisory Note</div>
                     </div>
                 </div>
                 <div id='detail' class="noprint shadow-lg rounded-2 m-2 p-2" tabindex="1">
@@ -231,7 +229,7 @@
                                 <option value=''>Category of application</option>
                                 <option value="taxilane">Taxiway/Taxilane Closure</option>
                                 <option value="workarea">Work Area</option>
-                                <option value="standclosure">Stand Clsoure</option>
+                                <option value="standclosure">Stand Closure</option>
                                 <option value="standrestriction">Stand Restriction</option>
                                 <option value="advisory">Advisory Note</option>
                             </select>
@@ -288,7 +286,7 @@
                             <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-type' required>
                                 <option selected>Open this select menu</option>
                                 <option value="Full">Full</option>
-                                <option value="Half">Daily</option>
+                                <option value="Daily">Daily</option>
                             </select>
                         </div>
                     </div>
