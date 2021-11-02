@@ -196,18 +196,20 @@ async function getClosures() {
 // load map with closures
 function loadmap(closures) {
     console.log('loading closures')
-    const mapStates = ['load', 'style.load']
+    const mapStates = ['load', 'style.load','error']
     mapStates.forEach(State => {
         map.on(State, () => {
             // Add a data source containing GeoJSON data.
-            map.addSource('closures', {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: closures.flat(),
-                },
-                'generateId': true
-            });
+            if (!map.getSource("closures")) {
+                map.addSource('closures', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: closures.flat(),
+                    },
+                    'generateId': true
+                });
+            }
             // Add a new layer to visualize the polygon.
             map.addLayer(approved);
 
