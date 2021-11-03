@@ -230,7 +230,7 @@ async function getClosures() {
 // load map with closures
 function loadmap(closures) {
     console.log('loading closures')
-    const mapStates = ['load', 'style.load','error']
+    const mapStates = ['load', 'style.load']
     mapStates.forEach(State => {
         map.on(State, () => {
             // Add a data source containing GeoJSON data.
