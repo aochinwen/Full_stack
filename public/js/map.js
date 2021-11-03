@@ -245,16 +245,12 @@ function loadmap(closures) {
                 });
             }
             // Add a new layer to visualize the polygon.
-            map.addLayer(approved);
-
-            map.addLayer(pending);
-            map.addLayer(standRestriction);
-            map.addLayer(standClosure);
-            map.addLayer(advisory);
-            // Add a black outline around the polygon.
-            map.addLayer(outline);
-            map.addLayer(workArea);
-
+            layers.forEach(layer => {
+                if (!map.getLayer(layer)) {
+                    map.addLayer(eval(layer))
+                }
+            });
+            
             //create hover effect
             layers.forEach(layer => {
                 map.on('mousemove', layer, (e) => {
@@ -369,4 +365,15 @@ drawButton.onclick = function () {
 
     }
 };
+
+//surpress mapbox tile error and all other console error for now
+var consoleerror = console.error;
+console.error = function (err) {
+    if (typeof (err.stack) != 'undefined' && err.stack.includes('at Actor.receive (https://api.tiles.mapbox.com/')) {
+        return;
+    } else {
+        console.error(err);
+    }
+}
+
 getClosures();
