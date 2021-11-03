@@ -31,7 +31,7 @@ const map = new mapboxgl.Map({
 
 filters = { expired: ['>=', 'EndofClosure', DateTime.now().ts], hideApproved: ['!=', 'Status', 'Approved'], hidePending: ['!=', 'Status', 'Pending'] }
 var layers = ['pending', 'approved', 'outline','standRestriction','standClosure','workArea','advisory'];
-
+var currentDate= DateTime.now().ts-28800000;
 
 const advisory = {
     'id': 'advisory',
@@ -47,7 +47,7 @@ const advisory = {
         ],
         'fill-opacity': 0.5,
     },
-    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'advisory']]
+    'filter': ["all", ['>=', 'EndofClosure', currentDate],['==', 'Category', 'advisory']]
 };
 
 const workArea = {
@@ -64,7 +64,7 @@ const workArea = {
         ],
         'line-width': 2
     },
-    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'workarea']]
+    'filter': ["all", ['>=', 'EndofClosure', currentDate],['==', 'Category', 'workarea']]
 };
 
 const standClosure = {
@@ -81,7 +81,7 @@ const standClosure = {
         ],
         'fill-opacity': 0.5,
     },
-    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'standclosure']]
+    'filter': ["all", ['>=', 'EndofClosure', currentDate],['==', 'Category', 'standclosure']]
 };
 
 const standRestriction = {
@@ -98,7 +98,7 @@ const standRestriction = {
         ],
         'fill-opacity': 0.5,
     },
-    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'standrestriction']]
+    'filter': ["all", ['>=', 'EndofClosure', currentDate],['==', 'Category', 'standrestriction']]
 };
 
 const approved = {
@@ -115,7 +115,7 @@ const approved = {
         ],
         'fill-opacity': 0.5,
     },
-    'filter': ["all", ['==', 'Status', 'Approved'], ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'taxilane']]
+    'filter': ["all", ['==', 'Status', 'Approved'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'taxilane']]
 };
 
 //["all",["==", 'damage', 0],[">=", 'senior_population', 20]]
@@ -134,7 +134,7 @@ const pending = {
         ],
         'fill-opacity': 0.5,
     },
-    'filter': ["all", ['==', 'Status', 'Pending'], ['>=', 'EndofClosure', DateTime.now().ts],['==', 'Category', 'taxilane']]
+    'filter': ["all", ['==', 'Status', 'Pending'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'taxilane']]
 };
 
 const outline = {
@@ -151,7 +151,7 @@ const outline = {
         ],
         'line-width': 2
     },
-    'filter': ["all", ['>=', 'EndofClosure', DateTime.now().ts], ['!=','Category','workarea']]
+    'filter': ["all", ['>=', 'EndofClosure', currentDate], ['!=','Category','workarea']]
 };
 
 function filterToggle(layer, filterParam) {
