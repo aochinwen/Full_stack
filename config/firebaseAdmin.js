@@ -26,7 +26,7 @@ var serviceAccount = {
   "type": "service_account",
   "project_id": "taxiwayclosure",
   "private_key_id": process.env.fbPrivateKeyId,
-  "private_key": "-----BEGIN PRIVATE KEY-----\n" + process.env.fbPrivateKey + "\n-----END PRIVATE KEY-----\n",
+  "private_key":process.env.fbPrivateKey.replace(/\\n/g, '\n'),
   "client_email": process.env.fbClientEmail,
   "client_id": "118116825915891177858",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
