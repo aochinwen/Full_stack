@@ -7,7 +7,7 @@ FIREBASE CONFIG'S
 *************************************************************************/
 
 var fbConfig = {
-    apiKey: "AIzaSyCRE_HMgmjYsvb_btcVYc-_Ly7MTjMtSk4",
+    apiKey: process.env.fbApiKey,
     authDomain: "taxiwayclosure.firebaseapp.com",
     databaseURL: "https://taxiwayclosure-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "taxiwayclosure",
