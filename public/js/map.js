@@ -316,27 +316,39 @@ function loadmap(closures) {
                 map.on('mouseenter', layer, () => {
                     map.getCanvas().style.cursor = 'pointer';
                 });
+                
+                
                 const filterGroup = document.getElementById('filter-group');
-                const input = document.createElement('input');
+                // while (filterGroup.firstChild) {
+                //     filterGroup.removeChild(filterGroup.lastChild);
+                //   }
 
-                input.type = 'checkbox';
-                input.id = layer;
-                input.checked = true;
-                filterGroup.appendChild(input);
+
+                if (filterGroup.childElementCount<layers.length*2){
+                    console.log(layers.length)
+                    console.log(filterGroup.childElementCount)
+                    const input = document.createElement('input');
                 
-                const label = document.createElement('label');
-                label.setAttribute('for', layer);
-                label.textContent = layer;
-                filterGroup.appendChild(label);
+                    input.type = 'checkbox';
+                    input.id = layer;
+                    input.checked = true;
+                    filterGroup.appendChild(input);
+                    
+                    const label = document.createElement('label');
+                    label.setAttribute('for', layer);
+                    label.textContent = layer;
+                    filterGroup.appendChild(label);
+                    
+                    // When the checkbox changes, update the visibility of the layer.
+                    input.addEventListener('change', (e) => {
+                        map.setLayoutProperty(
+                        layer,
+                        'visibility',
+                        e.target.checked ? 'visible' : 'none'
+                        );
+                    });
+                    }   
                 
-                // When the checkbox changes, update the visibility of the layer.
-                input.addEventListener('change', (e) => {
-                map.setLayoutProperty(
-                layer,
-                'visibility',
-                e.target.checked ? 'visible' : 'none'
-                );
-                });
             });
         });
     });
