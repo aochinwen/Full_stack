@@ -27,7 +27,7 @@ var serviceAccount = {
   "project_id": "taxiwayclosure",
   "private_key_id": process.env.fbPrivateKeyId,
   "private_key": process.env.fbPrivateKey,
-  "client_email": "firebase-adminsdk-o6lr1@taxiwayclosure.iam.gserviceaccount.com",
+  "client_email": process.env.fbClientEmail,
   "client_id": "118116825915891177858",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
