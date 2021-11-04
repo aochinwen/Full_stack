@@ -30,7 +30,7 @@ const map = new mapboxgl.Map({
 });
 
 filters = { expired: ['>=', 'EndofClosure', DateTime.now().ts], hideApproved: ['!=', 'Status', 'Approved'], hidePending: ['!=', 'Status', 'Pending'] }
-var layers = ['pending', 'approved', 'outline','standRestriction','standClosure','workArea','advisory'];
+var layers = ['pending', 'approved','standRestriction','standClosure','workArea','advisory','outline'];
 var currentDate= DateTime.now().ts-28800000;
 
 const advisory = {
@@ -46,6 +46,12 @@ const advisory = {
             '#007FFF'
         ],
         'fill-opacity': 0.5,
+        'fill-outline-color': [
+            'case',
+            ['boolean', ['feature-state', 'select'], false],
+            '#f6ff52',
+            '#000'
+        ]
     },
     'filter': ["all", ['>=', 'EndofClosure', currentDate],['==', 'Category', 'advisory']]
 };
@@ -80,6 +86,12 @@ const standClosure = {
             '#FF0000'
         ],
         'fill-opacity': 0.5,
+        'fill-outline-color': [
+            'case',
+            ['boolean', ['feature-state', 'select'], false],
+            '#f6ff52',
+            '#000'
+        ]
     },
     'filter': ["all", ['>=', 'EndofClosure', currentDate],['==', 'Category', 'standclosure']]
 };
@@ -97,6 +109,12 @@ const standRestriction = {
             '#fdfd96'
         ],
         'fill-opacity': 0.5,
+        'fill-outline-color': [
+            'case',
+            ['boolean', ['feature-state', 'select'], false],
+            '#f6ff52',
+            '#000'
+        ]
     },
     'filter': ["all", ['>=', 'EndofClosure', currentDate],['==', 'Category', 'standrestriction']]
 };
@@ -114,6 +132,12 @@ const approved = {
             '#64bdbb'
         ],
         'fill-opacity': 0.5,
+        'fill-outline-color': [
+            'case',
+            ['boolean', ['feature-state', 'select'], false],
+            '#f6ff52',
+            '#000'
+        ]
     },
     'filter': ["all", ['==', 'Status', 'Approved'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'taxilane']]
 };
@@ -133,6 +157,12 @@ const pending = {
             '#fbd2d7'
         ],
         'fill-opacity': 0.5,
+        'fill-outline-color': [
+            'case',
+            ['boolean', ['feature-state', 'select'], false],
+            '#f6ff52',
+            '#000'
+        ]
     },
     'filter': ["all", ['==', 'Status', 'Pending'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'taxilane']]
 };
@@ -285,6 +315,27 @@ function loadmap(closures) {
                 // the mouse is over the states layer.
                 map.on('mouseenter', layer, () => {
                     map.getCanvas().style.cursor = 'pointer';
+                });
+                const filterGroup = document.getElementById('filter-group');
+                const input = document.createElement('input');
+
+                input.type = 'checkbox';
+                input.id = layer;
+                input.checked = true;
+                filterGroup.appendChild(input);
+                
+                const label = document.createElement('label');
+                label.setAttribute('for', layer);
+                label.textContent = layer;
+                filterGroup.appendChild(label);
+                
+                // When the checkbox changes, update the visibility of the layer.
+                input.addEventListener('change', (e) => {
+                map.setLayoutProperty(
+                layer,
+                'visibility',
+                e.target.checked ? 'visible' : 'none'
+                );
                 });
             });
         });

@@ -41,21 +41,24 @@
 		  		<h1><a href="index.html" class="logo">Menu</a></h1>
 	        <ul class="list-unstyled components mb-5">
                 <li class="active menuButton">
-                    <a href="index.html"><span class="fa fa-home mr-3"></span>Home</a>
+                    <a href="index.html"><span class="fas fa-home mr-3" style="color:white"></span>Home</a>
                 </li>
                 <li class="menuButton">
-                <a href="#" onclick="toggleDrawPolygon()"><span class="fa fa-briefcase mr-3" id="addClosure" ></span>Add Closure</a>
+                <a href="#" onclick="toggleDrawPolygon()"><span class="fas fa-briefcase mr-3" id="addClosure" style="color:white" ></span>Add Closure</a>
                 </li>
                 <li class="menuButton">
-                <a href="#" onclick="printClosure()"><span class="fa fa-print mr-3" id="printClosure"></span>Print Closure Form</a>
+                <a href="#" onclick="printClosure()"><span class="fas fa-print mr-3" id="printClosure" style="color:white"></span>Print Closure Form</a>
                 </li>
                 <li class="menuButton" id="users">
-                    <a href="admin.html"><span class="fa fa-user mr-3" id="printClosure"></span>Users List</a>
+                    <a href="admin.html"><span class="fas fa-user mr-3" id="printClosure" style="color:white"></span>Users List</a>
                 </li>
                 <li class="menuButton">
-                    <a href="#" onclick="signOut()"><span class="fas fa-sign-out-alt mr-3" id="printClosure"></span>Sign Out</a>
+                    <a href="#" onclick="signOut()"><span class="fas fa-sign-out-alt mr-3" id="printClosure" style="color:white"></span>Sign Out</a>
                 </li>
 	        </ul>
+            <h2 style="color:white; text-decoration: underline;">Filter</h2>
+            <hr>
+            <div id="filter-group" class="filter-group align-items-lg-center justify-content-center"></div>
 	      </div>
     	</nav>
         <div class="container my-3">
@@ -86,9 +89,8 @@
                     <input id="ray11132002/ckocybags0c1m17k88qzwqa6e" type="radio" name="rtoggle" value="CAG">
                     <label for="CAG">CAG</label>
                 </div>
-                
             </div>
-
+            
             
 
             <style>

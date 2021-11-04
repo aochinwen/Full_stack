@@ -3409,7 +3409,7 @@ input[type="button"].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #007bff; }
+  background-color: #81b7b7; }
 
 .nav-fill .nav-item {
   -webkit-box-flex: 1;
@@ -8200,7 +8200,7 @@ h1, h2, h3, h4, h5,
 #sidebar {
   min-width: 270px;
   max-width: 270px;
-  background: #3445b4;
+  background: #81b7b7;
   color: #fff;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
@@ -8281,7 +8281,7 @@ h1, h2, h3, h4, h5,
           -webkit-transform: rotate(45deg);
           -ms-transform: rotate(45deg);
           transform: rotate(45deg);
-          background: #3445b4;
+          background: #81b7b7;
           border-radius: 10px; }
         #sidebar .custom-menu .btn.btn-primary:hover, #sidebar .custom-menu .btn.btn-primary:focus {
           background: transparent !important;
@@ -8409,6 +8409,59 @@ a[data-toggle="collapse"] {
 /* .mapboxgl-ctrl{
   display: none !important;
 } */
+
+/* .fas{
+  color:whitesmoke
+} */
+
+/* for filter buttons */
+.filter-group {
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  position: relative;
+  right: 10px;
+  z-index: 1;
+  border-radius: 3px;
+  width: 200px;
+  color: #fff;
+  margin:0%;
+  }
+   
+  .filter-group input[type='checkbox']:first-child + label {
+  border-radius: 3px 3px 0 0;
+  }
+   
+  .filter-group label:last-child {
+  border-radius: 0 0 3px 3px;
+  border: none;
+  }
+   
+  .filter-group input[type='checkbox'] {
+  display: none;
+  }
+   
+  .filter-group input[type='checkbox'] + label {
+  background-color: #587c7c;
+  display: block;
+  cursor: pointer;
+  padding: 10px;
+  margin:0%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  }
+   
+  .filter-group input[type='checkbox'] + label {
+  background-color: #587c7c;
+  text-transform: capitalize;
+  }
+   
+  .filter-group input[type='checkbox'] + label:hover{
+  background-color: #6c9b9b;
+  }
+   
+  .filter-group input[type='checkbox']:checked + label:before {
+  content: '✔';
+  margin-right: 5px;
+  }
 
 @media screen and (max-width: 480px) {
   #main{
