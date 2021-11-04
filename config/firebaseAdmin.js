@@ -22,7 +22,18 @@ INITIALIZE FIREBASE APP
 *************************************************************************/
 firebase.initializeApp(fbConfig)
 
-var serviceAccount = require('../taxiwayclosure-firebase-adminsdk-o6lr1-a9fada48bf.json');
+var serviceAccount = {
+  "type": "service_account",
+  "project_id": "taxiwayclosure",
+  "private_key_id": process.env.fbPrivateKeyId,
+  "private_key": process.env.fbPrivateKey,
+  "client_email": "firebase-adminsdk-o6lr1@taxiwayclosure.iam.gserviceaccount.com",
+  "client_id": "118116825915891177858",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-o6lr1%40taxiwayclosure.iam.gserviceaccount.com"
+};
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://taxiwayclosure-default-rtdb.asia-southeast1.firebasedatabase.app"
