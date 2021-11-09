@@ -8500,7 +8500,7 @@ a[data-toggle="collapse"] {
   .noprint {
      display: none;
   }
-  table { page-break-after:auto; page-break-inside:avoid;}
+  table { page-break-after:auto; page-break-inside:auto;}
   tr    { page-break-inside:avoid; page-break-after:auto }
   td    { page-break-inside:avoid; page-break-after:auto }
   thead { display:table-header-group }
@@ -8510,6 +8510,13 @@ a[data-toggle="collapse"] {
     display:none;
   }
   button { display:none;}
+
+  #map {
+    width:100%;
+  }
+  body {
+    display:block;
+  }
 
 
 }

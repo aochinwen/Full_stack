@@ -139,10 +139,9 @@ const approved = {
             '#000'
         ]
     },
-    'filter': ["all", ['==', 'Status', 'Approved'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'taxilane']]
+    'filter': ["all", ['==', 'Status', 'Approved'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'Taxiway/Taxilane']]
 };
 
-//["all",["==", 'damage', 0],[">=", 'senior_population', 20]]
 
 const pending = {
     'id': 'pending',
@@ -164,7 +163,7 @@ const pending = {
             '#000'
         ]
     },
-    'filter': ["all", ['==', 'Status', 'Pending'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'taxilane']]
+    'filter': ["all", ['==', 'Status', 'Pending'], ['>=', 'EndofClosure', currentDate],['==', 'Category', 'Taxiway/Taxilane']]
 };
 
 const outline = {

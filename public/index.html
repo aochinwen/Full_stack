@@ -99,6 +99,7 @@
                 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
                 }
             </style>
+            <div id="capture"></div>
             <div id="main">
                 <div id='map' style='width:100%; min-height: 500px; border-radius: 5px;'> 
                     <div id="state-legend" class="legend">
@@ -160,7 +161,7 @@
                                 <th>Status</th>
                                 <th>Project Officer</th>
                                 <th>Closure Location</th>
-                                <th>Date</th>
+                                <th style="min-width:80px">Date</th>
                                 <th>Time</th>
                                 <th>Type</th>
                                 <th>Remarks</th>
@@ -231,7 +232,7 @@
                             <label for="closure-category">Category: </label>
                             <select class="form-select form-select-sm" aria-label=".form-select-lg example" id='closure-category' required>
                                 <option value=''>Category of application</option>
-                                <option value="taxilane">Taxiway/Taxilane Closure</option>
+                                <option value="Taxiway/Taxilane">Taxiway/Taxilane Closure</option>
                                 <option value="workarea">Work Area</option>
                                 <option value="standclosure">Stand Closure</option>
                                 <option value="standrestriction">Stand Restriction</option>
